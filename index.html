@@ -973,9 +973,13 @@
     <header>
       <div>
         <h1 class="brand-title">KIDYOD CREATIVE LAB</h1>
-        <p class="subtitle">ระบบจัดการงานฟรีแลนซ์ • สร้างใบเสนอราคาสำเร็จรูป • ติดตามรายได้ & Google Calendar <span class="badge" style="background: rgba(35, 134, 54, 0.25); color: #6ee7b7; border: 1px solid #10b981; font-size: 0.74rem; margin-left: 6px; font-weight: 700;">v2.6 (Liquid Glass â¢ High Stability â¢ All Menus Active)</span></p>
+        <p class="subtitle">ระบบจัดการงานฟรีแลนซ์ • สร้างใบเสนอราคาสำเร็จรูป • ติดตามรายได้ & Google Calendar <span class="badge" style="background: rgba(35, 134, 54, 0.25); color: #6ee7b7; border: 1px solid #10b981; font-size: 0.74rem; margin-left: 6px; font-weight: 700;">v2.5 (Cloud Sync Live & Auto Google Sheet)</span></p>
       </div>
       <div class="header-actions">
+        <span id="syncStatusBadge" class="badge" style="background: rgba(255, 255, 255, 0.08); color: var(--text-muted); border: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.8rem; padding: 6px 12px;">⚪ โหมดออฟไลน์ (Local)</span>
+        <button id="btnSyncGas" class="btn btn-outline" onclick="syncWithGoogleSheet(true)" title="กดเพื่อดึงข้อมูลล่าสุดจาก Google Sheets ทันที">
+          🔄 ซิงค์ Google Sheet
+        </button>
         <button class="btn btn-outline" onclick="openGasModal()" title="ตั้งค่าเชื่อมต่อ Google Apps Script Web App API">
           ⚙️ เชื่อมต่อ Sheet
         </button>
@@ -1233,11 +1237,11 @@
       <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
         <span style="font-weight: 600; color: var(--text-heading); font-size: 0.95rem;">📅 กรองตามช่วงเดือน:</span>
         <div class="month-pills" id="monthPillsContainer">
-          <button class="month-pill" onclick="selectMonthFilter('all', this)">ภาพรวมทั้งหมด</button>
-          <button class="month-pill active" onclick="selectMonthFilter('2026-09', this)">กันยายน 2569</button>
-          <button class="month-pill" onclick="selectMonthFilter('2026-10', this)">ตุลาคม 2569</button>
-          <button class="month-pill" onclick="selectMonthFilter('2026-11', this)">พฤศจิกายน 2569</button>
-          <button class="month-pill" onclick="selectMonthFilter('2026-12', this)">ธันวาคม 2569</button>
+          <button class="month-pill" onclick="selectMonthFilter('all')">ภาพรวมทั้งหมด</button>
+          <button class="month-pill active" onclick="selectMonthFilter('2026-09')">กันยายน 2569</button>
+          <button class="month-pill" onclick="selectMonthFilter('2026-10')">ตุลาคม 2569</button>
+          <button class="month-pill" onclick="selectMonthFilter('2026-11')">พฤศจิกายน 2569</button>
+          <button class="month-pill" onclick="selectMonthFilter('2026-12')">ธันวาคม 2569</button>
         </div>
       </div>
       <div style="display: flex; align-items: center; gap: 12px;">
@@ -1590,7 +1594,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = 'freelance_tasks_data_v7';
+    const STORAGE_KEY = 'freelance_tasks_data_v4';
 
     /* Quotation Line Items State */
     let qtItems = [
@@ -1753,7 +1757,7 @@
     }
 
     /* Existing Tasks and Calendar logic */
-    const BILLING_STORAGE_KEY = 'freelance_billing_data_v7';
+    const BILLING_STORAGE_KEY = 'freelance_billing_data_v4';
 
     const defaultBillingData = [
       {
@@ -1821,138 +1825,28 @@
       saveBillingData();
     }
 
-            function sanitizeBillingItem(b) {
-      if (!b || typeof b !== 'object') return null;
-      let project = String(b.project || 'Kaenket').trim();
-      if (project.includes(',')) project = project.split(',')[0].trim();
-      if (project.length > 50) project = project.substring(0, 50);
-
-      let quotationStatus = String(b.quotationStatus || 'ออกแล้ว').trim();
-      if (quotationStatus.includes('GMT') || quotationStatus.includes('Production') || quotationStatus.length > 35 || quotationStatus.split(',').length > 1) {
-        quotationStatus = project.toLowerCase().includes('kaenket') ? 'ส่งแล้ว (01/09)' : 'เตรียมออกใบราคา';
-      }
-
-      let poNumber = String(b.poNumber || '- รอระบุ -').trim();
-      if (poNumber.includes('GMT') || poNumber.includes('Production') || poNumber.length > 25 || poNumber.includes(',')) {
-        poNumber = '- รอระบุ -';
-      }
-
-      let billingDate = String(b.billingDate || 'รอกำหนด').trim();
-      if (billingDate.includes('GMT') || billingDate.length > 30 || billingDate.includes(',')) {
-        billingDate = project.toLowerCase().includes('kaenket') ? '15 กันยายน 2569' : '30 กันยายน 2569';
-      }
-
-      let paymentDate = String(b.paymentDate || '').trim();
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(paymentDate)) {
-        paymentDate = project.toLowerCase().includes('kaenket') ? '2026-09-30' : '2026-10-31';
-      }
-
-      let expectedMonth = String(b.expectedMonth || '').trim();
-      if (!/^\d{4}-\d{2}$/.test(expectedMonth)) {
-        expectedMonth = paymentDate.substring(0, 7);
-      }
-
-      let gross = parseFloat(b.gross);
-      if (isNaN(gross) || gross <= 0) {
-        gross = project.toLowerCase().includes('kaenket') ? 90000 : 25000;
-      }
-      let tax = parseFloat(b.tax);
-      if (isNaN(tax) || tax <= 0) tax = Math.round(gross * 0.03);
-      let net = parseFloat(b.net);
-      if (isNaN(net) || net <= 0) net = gross - tax;
-
-      let taxCertStatus = String(b.taxCertStatus || 'ยังไม่ได้รับ').trim();
-      if (taxCertStatus.length > 20 || taxCertStatus.includes(',')) taxCertStatus = 'ยังไม่ได้รับ';
-
-      let paymentStatus = String(b.paymentStatus || 'รอเริ่ม').trim();
-      if (paymentStatus.length > 20 || paymentStatus.includes(',')) paymentStatus = 'มัดจำ';
-
-      return {
-        id: b.id || ('b_' + Math.random().toString(36).substr(2, 9)),
-        project: project,
-        desc: String(b.desc || (project.toLowerCase().includes('kaenket') ? 'AI Campaign Visual Production' : 'Creative & Artwork Design')).trim(),
-        gross: gross,
-        tax: tax,
-        net: net,
-        expectedMonth: expectedMonth,
-        paymentDate: paymentDate,
-        quotationStatus: quotationStatus,
-        poNumber: poNumber,
-        billingDate: billingDate,
-        billingDateIso: (b.billingDateIso && /^\d{4}-\d{2}-\d{2}$/.test(b.billingDateIso)) ? b.billingDateIso : paymentDate,
-        taxCertStatus: taxCertStatus,
-        paymentStatus: paymentStatus
-      };
-    }
-
-    function sanitizeTaskItem(t) {
-      if (!t || typeof t !== 'object') return null;
-      let project = String(t.project || 'Kaenket').trim();
-      if (project.includes(',')) project = project.split(',')[0].trim();
-
-      let title = String(t.title || '').trim();
-      if (title.includes('GMT') || title.split(',').length > 2) {
-        const parts = title.split(',');
-        title = parts[1] || parts[0] || 'งานส่งมอบ';
-      }
-
-      let dueDate = String(t.dueDate || '').trim();
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(dueDate)) {
-        if (dueDate.includes('GMT')) {
-          try {
-            const d = new Date(dueDate);
-            if (!isNaN(d.getTime())) {
-              dueDate = d.toISOString().split('T')[0];
-            } else {
-              dueDate = '2026-09-15';
-            }
-          } catch(e) {
-            dueDate = '2026-09-15';
-          }
-        } else {
-          dueDate = '2026-09-15';
-        }
-      }
-
-      let status = String(t.status || 'To Do').trim();
-      if (!['To Do', 'In Progress', 'Done'].includes(status)) {
-        if (status.includes('Done')) status = 'Done';
-        else if (status.includes('Progress')) status = 'In Progress';
-        else status = 'To Do';
-      }
-
-      let priority = String(t.priority || 'High').trim();
-      if (!['High', 'Medium', 'Low'].includes(priority)) priority = 'High';
-
-      let notes = String(t.notes || '').trim();
-      if (notes.includes('GMT') || notes.length > 200) notes = '';
-
-      return {
-        id: t.id || ('t_' + Math.random().toString(36).substr(2, 9)),
-        project: project,
-        title: title,
-        dueDate: dueDate,
-        status: status,
-        priority: priority,
-        notes: notes
-      };
-    }
-
         function loadBillingData() {
-      // Clear legacy corrupted keys
-      ['freelance_billing_data_v1', 'freelance_billing_data_v2', 'freelance_billing_data_v3', 'freelance_billing_data_v4'].forEach(k => localStorage.removeItem(k));
-
       const saved = localStorage.getItem(BILLING_STORAGE_KEY);
       let data = defaultBillingData;
       if (saved) {
-        try {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length > 0) data = parsed;
-        } catch(e) {}
+        try { data = JSON.parse(saved); } catch(e) {}
       }
-      return data.map(sanitizeBillingItem).filter(Boolean);
+      if (!Array.isArray(data) || data.length === 0) data = defaultBillingData;
+      
+      data.forEach(b => {
+        if (!b.expectedMonth || !/^\d{4}-\d{2}$/.test(b.expectedMonth)) {
+          b.expectedMonth = (b.paymentDate && /^\d{4}-\d{2}/.test(b.paymentDate)) ? b.paymentDate.substring(0, 7) : '2026-09';
+        }
+        if (b.desc && b.desc === b.project) {
+          b.desc = 'AI Campaign Visual Production';
+        }
+        if (!b.gross || isNaN(b.gross)) b.gross = 0;
+        if (!b.tax || isNaN(b.tax)) b.tax = Math.round(b.gross * 0.03);
+        if (!b.net || isNaN(b.net)) b.net = b.gross - b.tax;
+        if (!b.paymentStatus) b.paymentStatus = 'รอเริ่ม';
+      });
+      return data;
     }
-
 
     let billingData = loadBillingData();
 
@@ -2265,21 +2159,14 @@
       }
     ];
 
-        function loadTasks() {
-      // Clear legacy corrupted keys
-      ['freelance_tasks_data_v1', 'freelance_tasks_data_v2', 'freelance_tasks_data_v3', 'freelance_tasks_data_v4'].forEach(k => localStorage.removeItem(k));
-
+    function loadTasks() {
       const saved = localStorage.getItem(STORAGE_KEY);
-      let data = defaultTasks;
       if (saved) {
         try {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length > 0) data = parsed;
-        } catch(e) {}
-      }
-      return data.map(sanitizeTaskItem).filter(Boolean);
-    }
-
+          return JSON.parse(saved);
+        } catch (e) {
+          return defaultTasks;
+        }
       }
       return defaultTasks;
     }
@@ -2330,41 +2217,30 @@
       }
     }
 
-    
-    function selectMonthFilter(month, btnElement) {
-      try {
-        selectedMonth = month;
-        const pills = document.querySelectorAll("#monthPillsContainer .month-pill");
-        pills.forEach(p => p.classList.remove("active"));
-        
-        if (btnElement && btnElement.classList) {
-          btnElement.classList.add("active");
+    function selectMonthFilter(month) {
+      selectedMonth = month;
+      const pills = document.querySelectorAll('#monthPillsContainer .month-pill');
+      pills.forEach(p => {
+        const clickAttr = p.getAttribute('onclick') || '';
+        if (clickAttr.includes(`'${month}'`)) {
+          p.classList.add('active');
         } else {
-          pills.forEach(p => {
-            const clickAttr = p.getAttribute("onclick") || "";
-            if (clickAttr.includes(" + month + ")) p.classList.add("active");
-          });
+          p.classList.remove('active');
         }
+      });
 
-        const label = document.getElementById("currentFilterLabel");
-        if (label) {
-          label.innerHTML = "à¹à¸ªà¸à¸à¸à¹à¸­à¸¡à¸¹à¸¥: <strong>" + (monthNamesThai[month] || month) + "</strong>";
-        }
+      document.getElementById('currentFilterLabel').innerHTML = `แสดงข้อมูล: <strong>${monthNamesThai[month] || month}</strong>`;
 
-        if (month !== "all" && typeof month === "string" && month.includes("-")) {
-          const parts = month.split("-");
-          currentCalDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, 1);
-        }
-
-        updateStats();
-        renderTasks();
-        renderCalendar();
-        renderBillingTable();
-      } catch (err) {
-        console.error("selectMonthFilter error:", err);
+      if (month !== 'all') {
+        const parts = month.split('-');
+        currentCalDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, 1);
       }
-    }
 
+      updateStats();
+      renderTasks();
+      renderCalendar();
+      renderBillingTable();
+    }
 
     /* Annual Summary Logic */
     let selectedAnnualYear = '2026';
@@ -2530,8 +2406,8 @@
             <td style="white-space: nowrap;">
               <input type="date" value="${b.paymentDate || (safeMonth ? safeMonth + '-01' : '')}" onchange="updateBillingPaymentDate('${b.id}', this.value)" style="padding: 4px 6px; font-size: 0.8rem; width: 130px; border-radius: 8px;" title="เลือกวันที่และเดือนที่เงินเข้า">
             </td>
-            <td><span class="doc-badge">${(b.quotationStatus && b.quotationStatus.length < 40 && !b.quotationStatus.includes(',')) ? b.quotationStatus : (b.project.includes('Kaenket') ? 'ส่งแล้ว (01/09)' : 'เตรียมออกใบราคา')}</span></td>
-            <td><span style="color: var(--text-muted);">${(b.poNumber && b.poNumber.length < 25 && !b.poNumber.includes(',')) ? b.poNumber : '- รอระบุ -'}</span></td>
+            <td><span class="doc-badge">${b.quotationStatus || '-'}</span></td>
+            <td><span style="color: var(--text-muted);">${b.poNumber || '-'}</span></td>
             <td style="white-space: nowrap;">
               <input type="date" value="${b.billingDateIso || ''}" onchange="updateBillingDate('${b.id}', this.value)" style="padding: 4px 6px; font-size: 0.8rem; width: 130px; border-radius: 8px;" title="เลือกวันที่และเดือนที่วางบิล">
             </td>
@@ -2855,39 +2731,27 @@ KIDYOD CREATIVE LAB`);
 
     const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
 
-    
     function changeMonth(delta) {
-      try {
-        currentCalDate.setMonth(currentCalDate.getMonth() + delta);
-        const y = currentCalDate.getFullYear();
-        const m = String(currentCalDate.getMonth() + 1).padStart(2, "0");
-        const targetMonth = y + "-" + m;
-        selectedMonth = targetMonth;
-        
-        const pills = document.querySelectorAll("#monthPillsContainer .month-pill");
-        pills.forEach(p => {
-          const clickAttr = p.getAttribute("onclick") || "";
-          if (clickAttr.includes(" + targetMonth + ")) {
-            p.classList.add("active");
-          } else {
-            p.classList.remove("active");
-          }
-        });
-        
-        const label = document.getElementById("currentFilterLabel");
-        if (label) {
-          label.innerHTML = "à¹à¸ªà¸à¸à¸à¹à¸­à¸¡à¸¹à¸¥: <strong>" + (monthNamesThai[targetMonth] || targetMonth) + "</strong>";
+      currentCalDate.setMonth(currentCalDate.getMonth() + delta);
+      const y = currentCalDate.getFullYear();
+      const m = String(currentCalDate.getMonth() + 1).padStart(2, '0');
+      const targetMonth = `${y}-${m}`;
+      selectedMonth = targetMonth;
+      const pills = document.querySelectorAll('#monthPillsContainer .month-pill');
+      pills.forEach(p => {
+        const clickAttr = p.getAttribute('onclick') || '';
+        if (clickAttr.includes(`'${targetMonth}'`)) {
+          p.classList.add('active');
+        } else {
+          p.classList.remove('active');
         }
-        
-        updateStats();
-        renderTasks();
-        renderCalendar();
-        renderBillingTable();
-      } catch (err) {
-        console.error("changeMonth error:", err);
-      }
+      });
+      document.getElementById('currentFilterLabel').innerHTML = `แสดงข้อมูล: <strong>${monthNamesThai[targetMonth] || targetMonth}</strong>`;
+      updateStats();
+      renderTasks();
+      renderCalendar();
+      renderBillingTable();
     }
-
 
     function goToToday() {
       const now = new Date();
@@ -2896,18 +2760,6 @@ KIDYOD CREATIVE LAB`);
       const m = String(now.getMonth() + 1).padStart(2, '0');
       selectMonthFilter(`${y}-${m}`);
       renderCalendar();
-    }
-
-        function resetAndCleanAllData() {
-      if (confirm('คุณต้องการล้างแคชข้อมูลทั้งหมดให้สะอาด และรีโหลดข้อมูลตั้งต้นที่ถูกต้องใช่หรือไม่?')) {
-        ['freelance_tasks_data_v1', 'freelance_tasks_data_v2', 'freelance_tasks_data_v3', 'freelance_tasks_data_v4', 'freelance_tasks_data_v5',
-         'freelance_billing_data_v1', 'freelance_billing_data_v2', 'freelance_billing_data_v3', 'freelance_billing_data_v4', 'freelance_billing_data_v5'].forEach(k => localStorage.removeItem(k));
-        tasks = JSON.parse(JSON.stringify(defaultTasks));
-        billingData = JSON.parse(JSON.stringify(defaultBillingData));
-        saveTasks();
-        saveBillingData();
-        showToast('🧹 ล้างข้อมูลแคชทั้งหมดเรียบร้อยแล้ว');
-      }
     }
 
     function restoreDefaultTasks() {
@@ -3036,7 +2888,7 @@ KIDYOD CREATIVE LAB`);
     }    /* ==========================================
        GOOGLE APPS SCRIPT REAL-TIME SYNC ENGINE
        ========================================== */
-    const DEFAULT_GAS_URL = '';
+    const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbwD85u6_2uiEmts8FpOT0S-DWgQCRiKwxTIveaGhmhy_vv8k2G9fZI1a8vo7LoeiZR2/exec';
     const GAS_URL_KEY = 'kidyod_gas_web_app_url';
     let gasPushTimeout = null;
 
@@ -3202,11 +3054,11 @@ KIDYOD CREATIVE LAB`);
       .then(data => {
         if (data.status === 'success') {
           if (data.tasks && Array.isArray(data.tasks) && data.tasks.length > 0) {
-            tasks = data.tasks.map(sanitizeTaskItem).filter(Boolean);
+            tasks = data.tasks;
             localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
           }
           if (data.billingData && Array.isArray(data.billingData) && data.billingData.length > 0) {
-            billingData = data.billingData.map(sanitizeBillingItem).filter(Boolean);
+            billingData = data.billingData;
             localStorage.setItem(BILLING_STORAGE_KEY, JSON.stringify(billingData));
           }
 
@@ -3297,8 +3149,7 @@ KIDYOD CREATIVE LAB`);
     }
 
     // Auto-sync with Google Sheets if configured
-    // Auto-sync disabled on load for stability
-    // syncWithGoogleSheet(false);
+    syncWithGoogleSheet(false);
   </script>  <!-- Modal: Google Apps Script Web App Sync Settings -->
   <div id="gasModal" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 10000; align-items: center; justify-content: center; padding: 20px;">
     <div class="card" style="max-width: 680px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; margin-bottom: 0; border-color: rgba(99, 102, 241, 0.4); box-shadow: 0 24px 64px rgba(0,0,0,0.8);">
