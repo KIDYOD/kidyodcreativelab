@@ -9,21 +9,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0d1117;
-      --card-bg: #161b22;
-      --card-sub-bg: #21262d;
-      --border: #30363d;
-      --text: #c9d1d9;
-      --text-heading: #f0f6fc;
-      --text-muted: #8b949e;
-      --primary: #2f81f7;
-      --primary-hover: #388bfd;
-      --success: #238636;
-      --success-hover: #2ea043;
-      --warning: #d29922;
-      --danger: #da3633;
-      --purple: #8957e5;
-      --cal-today-bg: rgba(47, 129, 247, 0.15);
+      --bg: #07090e;
+      --card-bg: rgba(18, 24, 38, 0.65);
+      --card-sub-bg: rgba(255, 255, 255, 0.04);
+      --card-hover-bg: rgba(255, 255, 255, 0.07);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-highlight: rgba(255, 255, 255, 0.18);
+      --glass-glow: 0 16px 40px -8px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+      --text: #cbd5e1;
+      --text-heading: #ffffff;
+      --text-muted: #94a3b8;
+      --primary: #3b82f6;
+      --primary-hover: #60a5fa;
+      --success: #10b981;
+      --success-hover: #34d399;
+      --warning: #f59e0b;
+      --danger: #f43f5e;
+      --purple: #8b5cf6;
+      --cal-today-bg: rgba(99, 102, 241, 0.22);
     }
 
     * {
@@ -33,15 +36,24 @@
     }
 
     body {
-      font-family: 'Sarabun', 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Plus Jakarta Sans', 'Sarabun', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 12% 18%, rgba(99, 102, 241, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 88% 12%, rgba(168, 85, 247, 0.16) 0%, transparent 40%),
+        radial-gradient(circle at 50% 55%, rgba(14, 165, 233, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 25% 85%, rgba(236, 72, 153, 0.10) 0%, transparent 45%);
+      background-attachment: fixed;
+      background-size: cover;
       color: var(--text);
-      line-height: 1.5;
-      padding: 24px;
+      line-height: 1.6;
+      padding: 28px 20px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
     .container {
-      max-width: 1320px;
+      max-width: 1340px;
       margin: 0 auto;
     }
 
@@ -49,26 +61,36 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+      padding: 20px 24px;
+      background: rgba(18, 24, 38, 0.55);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      border: 1px solid var(--border);
+      border-top: 1px solid var(--border-highlight);
+      border-radius: 18px;
+      box-shadow: var(--glass-glow);
       flex-wrap: wrap;
       gap: 16px;
     }
 
     h1, h2, h3 {
       color: var(--text-heading);
-      font-weight: 600;
+      font-weight: 700;
+      letter-spacing: -0.3px;
     }
 
     .brand-title {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 800;
       letter-spacing: -0.5px;
-      color: #fff;
+      background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       display: flex;
       align-items: center;
       gap: 8px;
+      font-size: 1.75rem;
     }
 
     .subtitle {
@@ -81,20 +103,25 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
+      align-items: center;
     }
 
     /* Month Selector Ribbon */
     .month-ribbon {
-      background-color: var(--card-bg);
+      background: rgba(18, 24, 38, 0.6);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 16px;
-      margin-bottom: 20px;
+      border-top: 1px solid var(--border-highlight);
+      border-radius: 16px;
+      padding: 14px 20px;
+      margin-bottom: 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 14px;
+      box-shadow: var(--glass-glow);
     }
 
     .month-pills {
@@ -104,61 +131,80 @@
     }
 
     .month-pill {
-      background-color: transparent;
-      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       color: var(--text);
-      padding: 6px 14px;
-      border-radius: 20px;
+      padding: 7px 16px;
+      border-radius: 24px;
       cursor: pointer;
       font-size: 0.88rem;
       font-weight: 500;
-      transition: all 0.15s;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .month-pill:hover {
-      background-color: var(--card-sub-bg);
-      color: var(--text-heading);
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      transform: translateY(-1px);
     }
 
     .month-pill.active {
-      background-color: var(--primary);
-      border-color: var(--primary);
-      color: #fff;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.85), rgba(139, 92, 246, 0.85));
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #ffffff;
       font-weight: 600;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
     }
 
     /* Stats Grid */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
+      gap: 18px;
       margin-bottom: 24px;
     }
 
     .card {
-      background-color: var(--card-bg);
+      background: var(--card-bg);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 20px;
+      border-top: 1px solid var(--border-highlight);
+      border-radius: 18px;
+      padding: 24px;
       margin-bottom: 24px;
+      box-shadow: var(--glass-glow);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      border-top-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
     }
 
     .stat-label {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
+      font-weight: 600;
     }
 
     .stat-value {
-      font-size: 1.8rem;
-      font-weight: 700;
+      font-size: 1.9rem;
+      font-weight: 800;
       color: var(--text-heading);
-      margin-top: 4px;
+      margin-top: 6px;
+      letter-spacing: -0.5px;
     }
 
     .stat-desc {
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       color: var(--text-muted);
       margin-top: 4px;
     }
@@ -167,31 +213,46 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       flex-wrap: wrap;
       gap: 12px;
     }
 
     /* Cross Month Timeline */
     .cross-month-card {
-      background: linear-gradient(135deg, rgba(22, 27, 34, 0.95), rgba(33, 38, 45, 0.95));
+      background: rgba(18, 24, 38, 0.65);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 20px;
+      border-top: 1px solid var(--border-highlight);
+      border-radius: 18px;
+      padding: 24px;
       margin-bottom: 24px;
+      box-shadow: var(--glass-glow);
     }
 
     .timeline-item {
-      background-color: rgba(13, 17, 23, 0.6);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px;
-      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.025);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 16px;
+      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.25);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .timeline-item:hover {
+      background: rgba(255, 255, 255, 0.045);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
     }
 
     .timeline-progress {
@@ -202,15 +263,17 @@
 
     .progress-bar {
       height: 8px;
-      background-color: #21262d;
-      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
       overflow: hidden;
       margin-top: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
     }
 
     .progress-fill {
       height: 100%;
-      border-radius: 4px;
+      border-radius: 6px;
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
     }
 
     /* Calendar Styling */
@@ -219,7 +282,7 @@
       gap: 8px;
       margin-bottom: 16px;
       border-bottom: 1px solid var(--border);
-      padding-bottom: 8px;
+      padding-bottom: 10px;
       overflow-x: auto;
     }
 
@@ -229,127 +292,151 @@
       color: var(--text-muted);
       font-size: 0.95rem;
       font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 6px;
+      padding: 8px 18px;
+      border-radius: 10px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       white-space: nowrap;
+      transition: all 0.2s ease;
     }
 
     .tab-btn.active {
-      background-color: var(--card-sub-bg);
-      color: var(--text-heading);
-      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
 
     .cal-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
+      gap: 6px;
     }
 
     .cal-day-name {
       text-align: center;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       color: var(--text-muted);
-      padding: 8px 0;
-      background-color: var(--card-sub-bg);
-      border-radius: 4px;
+      padding: 10px 0;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .cal-day-cell {
-      min-height: 95px;
-      background-color: #161b22;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 6px;
+      min-height: 100px;
+      background: rgba(18, 24, 38, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 8px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      transition: border-color 0.15s;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .cal-day-cell:hover {
-      border-color: #58a6ff;
+      border-color: rgba(99, 102, 241, 0.5);
+      background: rgba(25, 32, 50, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      z-index: 2;
     }
 
     .cal-day-cell.other-month {
-      opacity: 0.35;
-      background-color: #0d1117;
+      opacity: 0.3;
+      background: rgba(10, 14, 22, 0.4);
     }
 
     .cal-day-cell.today {
-      background-color: var(--cal-today-bg);
-      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.6);
+      box-shadow: inset 0 0 12px rgba(99, 102, 241, 0.25);
     }
 
     .cal-date-number {
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-heading);
       align-self: flex-end;
     }
 
     .cal-task-chip {
-      font-size: 0.72rem;
-      padding: 2px 6px;
-      border-radius: 4px;
+      font-size: 0.74rem;
+      padding: 3px 8px;
+      border-radius: 6px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       cursor: pointer;
       font-weight: 500;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    .cal-task-chip:hover {
+      transform: scale(1.02);
+      filter: brightness(1.2);
     }
 
     .chip-kaenket {
-      background-color: rgba(137, 87, 229, 0.25);
-      color: #d2a8ff;
-      border: 1px solid rgba(137, 87, 229, 0.5);
+      background: rgba(139, 92, 246, 0.25);
+      color: #e9d5ff;
+      border: 1px solid rgba(139, 92, 246, 0.45);
     }
 
     .chip-bangkok {
-      background-color: rgba(47, 129, 247, 0.25);
-      color: #79c0ff;
-      border: 1px solid rgba(47, 129, 247, 0.5);
+      background: rgba(59, 130, 246, 0.25);
+      color: #bfdbfe;
+      border: 1px solid rgba(59, 130, 246, 0.45);
     }
 
     .chip-other {
-      background-color: rgba(210, 153, 34, 0.25);
-      color: #f2cc60;
-      border: 1px solid rgba(210, 153, 34, 0.5);
+      background: rgba(245, 158, 11, 0.25);
+      color: #fde68a;
+      border: 1px solid rgba(245, 158, 11, 0.45);
     }
 
     /* Billing Table */
     .table-container {
       overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(12, 16, 26, 0.35);
     }
 
     table.doc-table {
       width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.92rem;
     }
 
     table.doc-table th {
-      background-color: var(--card-sub-bg);
-      color: var(--text-heading);
-      padding: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      color: #f8fafc;
+      padding: 14px 12px;
       text-align: left;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       font-weight: 600;
+      letter-spacing: 0.2px;
     }
 
     table.doc-table td {
-      padding: 12px;
-      border-bottom: 1px solid var(--border);
+      padding: 13px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       color: var(--text);
+      transition: background 0.15s ease;
     }
 
     table.doc-table tr:hover td {
-      background-color: rgba(255, 255, 255, 0.02);
+      background: rgba(255, 255, 255, 0.035);
     }
 
     /* Layout */
@@ -366,96 +453,131 @@
     }
 
     .form-group {
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     label {
       display: block;
-      font-size: 0.875rem;
-      color: var(--text-heading);
+      font-size: 0.86rem;
+      color: #e2e8f0;
       margin-bottom: 6px;
-      font-weight: 500;
+      font-weight: 600;
+      letter-spacing: 0.2px;
     }
 
     input, select, textarea {
       width: 100%;
-      padding: 10px 12px;
-      background-color: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text-heading);
+      padding: 11px 14px;
+      background: rgba(12, 16, 28, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 10px;
+      color: #f8fafc;
       font-family: inherit;
       font-size: 0.95rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     input:focus, select:focus, textarea:focus {
       outline: none;
-      border-color: var(--primary);
+      border-color: #6366f1;
+      background: rgba(15, 20, 35, 0.85);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25), 0 4px 16px rgba(0, 0, 0, 0.4);
     }
 
     button, .btn {
       cursor: pointer;
       font-family: inherit;
-      font-weight: 500;
-      border-radius: 6px;
-      padding: 8px 14px;
+      font-weight: 600;
+      border-radius: 12px;
+      padding: 9px 18px;
       border: 1px solid transparent;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
       font-size: 0.9rem;
-      transition: all 0.15s;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .btn-primary {
-      background-color: var(--primary);
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
       color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 18px rgba(59, 130, 246, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
     }
 
     .btn-primary:hover {
-      background-color: var(--primary-hover);
+      background: linear-gradient(135deg, #60a5fa, #818cf8);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(59, 130, 246, 0.5);
     }
 
     .btn-success {
-      background-color: var(--success);
+      background: linear-gradient(135deg, #10b981, #059669);
       color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 18px rgba(16, 185, 129, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
     }
 
     .btn-success:hover {
-      background-color: var(--success-hover);
+      background: linear-gradient(135deg, #34d399, #10b981);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(16, 185, 129, 0.5);
     }
 
     .btn-purple {
-      background-color: #8957e5;
+      background: linear-gradient(135deg, #8b5cf6, #a855f7);
       color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 18px rgba(139, 92, 246, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
     }
 
     .btn-purple:hover {
-      background-color: #9e6cf2;
+      background: linear-gradient(135deg, #a78bfa, #c084fc);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(139, 92, 246, 0.5);
     }
 
     .btn-outline {
-      background-color: transparent;
-      border-color: var(--border);
-      color: var(--text-heading);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      color: #f1f5f9;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
     .btn-outline:hover {
-      background-color: #21262d;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
     }
 
     .btn-sm {
-      padding: 4px 8px;
-      font-size: 0.8rem;
+      padding: 5px 12px;
+      font-size: 0.82rem;
+      border-radius: 8px;
     }
 
     .btn-danger {
-      background-color: transparent;
-      border: none;
-      color: var(--danger);
-      padding: 4px 8px;
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: #fb7185;
+      padding: 5px 10px;
+      border-radius: 8px;
+    }
+
+    .btn-danger:hover {
+      background: rgba(244, 63, 94, 0.25);
+      border-color: rgba(244, 63, 94, 0.5);
+      color: #fff;
     }
 
     .task-list {
@@ -466,13 +588,26 @@
     }
 
     .task-item {
-      background-color: #1c2128;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
+      background: rgba(255, 255, 255, 0.025);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.25);
+    }
+
+    .task-item:hover {
+      background: rgba(255, 255, 255, 0.045);
+      border-color: rgba(255, 255, 255, 0.15);
+      border-top-color: rgba(255, 255, 255, 0.28);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.35);
     }
 
     .task-header {
@@ -483,12 +618,12 @@
     }
 
     .task-title {
-      font-size: 1rem;
-      font-weight: 600;
+      font-size: 1.05rem;
+      font-weight: 700;
       color: var(--text-heading);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
@@ -496,54 +631,61 @@
       display: flex;
       flex-wrap: wrap;
       gap: 14px;
-      font-size: 0.85rem;
+      font-size: 0.86rem;
       color: var(--text-muted);
-      margin-top: 4px;
+      margin-top: 6px;
     }
 
     .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.76rem;
       font-weight: 600;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
     .badge-kaenket {
-      background-color: rgba(137, 87, 229, 0.2);
-      color: #d2a8ff;
-      border: 1px solid rgba(137, 87, 229, 0.4);
+      background: rgba(139, 92, 246, 0.2);
+      color: #d8b4fe;
+      border: 1px solid rgba(139, 92, 246, 0.4);
     }
 
     .badge-bangkok {
-      background-color: rgba(47, 129, 247, 0.2);
-      color: #79c0ff;
-      border: 1px solid rgba(47, 129, 247, 0.4);
+      background: rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.4);
     }
 
     .badge-status-todo {
-      background-color: rgba(210, 153, 34, 0.2);
-      color: #f2cc60;
+      background: rgba(245, 158, 11, 0.18);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.35);
     }
 
     .badge-status-progress {
-      background-color: rgba(47, 129, 247, 0.2);
-      color: #79c0ff;
+      background: rgba(59, 130, 246, 0.18);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.35);
     }
 
     .badge-status-done {
-      background-color: rgba(35, 134, 54, 0.2);
-      color: #7ee787;
+      background: rgba(16, 185, 129, 0.18);
+      color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, 0.35);
     }
 
     .task-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid rgba(48, 54, 61, 0.6);
-      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 12px;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
     }
 
     .task-actions {
@@ -567,19 +709,19 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 3px 8px;
-      border-radius: 4px;
+      padding: 4px 10px;
+      border-radius: 8px;
       font-size: 0.78rem;
       font-weight: 500;
-      background-color: var(--card-sub-bg);
-      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     iframe.gcal-frame {
       width: 100%;
-      height: 560px;
+      height: 580px;
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 12px;
       background-color: #fff;
     }
 
@@ -587,7 +729,7 @@
     .qt-grid {
       display: grid;
       grid-template-columns: 1fr 1.2fr;
-      gap: 24px;
+      gap: 28px;
       align-items: start;
     }
 
@@ -626,12 +768,16 @@
 
     /* Formal Printable A4 Sheet Styles */
     .a4-preview-wrapper {
-      background-color: #30363d;
-      padding: 24px;
-      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 28px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       overflow-x: auto;
       display: flex;
       justify-content: center;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
     }
 
     .a4-paper {
@@ -642,7 +788,7 @@
       color: #1a1a1a;
       padding: 40px;
       border-radius: 4px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
       font-family: 'Sarabun', 'Plus Jakarta Sans', sans-serif;
       font-size: 13px;
       line-height: 1.5;
@@ -781,7 +927,8 @@
     /* Print Styles */
     @media print {
       body {
-        background-color: #fff !important;
+        background: #fff !important;
+        background-image: none !important;
         color: #000 !important;
         padding: 0 !important;
       }
@@ -795,6 +942,7 @@
         background: none !important;
         border: none !important;
         padding: 0 !important;
+        box-shadow: none !important;
       }
 
       #quotationSection .section-title {
@@ -808,6 +956,8 @@
       .a4-preview-wrapper {
         background: none !important;
         padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
       }
 
       .a4-paper {
@@ -823,11 +973,17 @@
     <header>
       <div>
         <h1 class="brand-title">KIDYOD CREATIVE LAB</h1>
-        <p class="subtitle">ระบบจัดการงานฟรีแลนซ์ • สร้างใบเสนอราคาสำเร็จรูป • ติดตามรายได้ & Google Calendar</p>
+        <p class="subtitle">ระบบจัดการงานฟรีแลนซ์ • สร้างใบเสนอราคาสำเร็จรูป • ติดตามรายได้ & Google Calendar <span class="badge" style="background: rgba(35, 134, 54, 0.25); color: #6ee7b7; border: 1px solid #10b981; font-size: 0.74rem; margin-left: 6px; font-weight: 700;">v2.6 (Liquid Glass â¢ High Stability â¢ All Menus Active)</span></p>
       </div>
       <div class="header-actions">
+        <button class="btn btn-outline" onclick="openGasModal()" title="ตั้งค่าเชื่อมต่อ Google Apps Script Web App API">
+          ⚙️ เชื่อมต่อ Sheet
+        </button>
         <button class="btn btn-purple" onclick="toggleQuotationGenerator()">
           📄 สร้างใบเสนอราคาสำเร็จรูป
+        </button>
+        <button class="btn btn-primary" onclick="switchAddFormTab('project'); document.getElementById('newProjName').focus();" title="เพิ่มโปรเจกต์งานหลักใหม่">
+          + 📁 เพิ่มโปรเจกต์หลัก
         </button>
         <a href="https://docs.google.com/spreadsheets/d/1FtPfpUQgBjJmaovM2qomUGlqlqWRu4U_CpxaDXnV0vs/edit" target="_blank" class="btn btn-success">
           📊 เปิด Google Sheets Tracker
@@ -835,21 +991,28 @@
         <a href="https://calendar.google.com/calendar/" target="_blank" class="btn btn-primary">
           📅 เปิด Google Calendar
         </a>
-        <button class="btn btn-outline" onclick="exportData()">
+        <button class="btn btn-outline" onclick="exportData()" title="ดาวน์โหลดสำรองข้อมูลทั้งหมด">
           💾 สำรอง JSON
         </button>
+        <button class="btn btn-outline" onclick="document.getElementById('importFileInput').click()" title="กู้คืน/นำเข้าข้อมูลจากไฟล์สำรอง">
+          📥 นำเข้า JSON
+        </button>
+        <input type="file" id="importFileInput" style="display: none;" accept=".json" onchange="importData(event)">
       </div>
     </header>
 
     <!-- Quotation Generator Section -->
-    <div id="quotationSection" class="card" style="display: block; border-color: rgba(137, 87, 229, 0.4); background: linear-gradient(180deg, #1c2128, #161b22);">
+    <div id="quotationSection" class="card" style="display: none; border-color: rgba(137, 87, 229, 0.4); background: linear-gradient(180deg, #1c2128, #161b22);">
       <div class="section-title">
         <div>
           <h2>📄 ระบบออกใบเสนอราคาสำเร็จรูป (Quotation Generator)</h2>
           <p class="subtitle">หัวบิล: <strong>KIDYOD CREATIVE LAB</strong> • กรอกข้อมูลหรือกดปุ่มลัดเพื่อออกเอกสารพร้อมพิมพ์/เซฟ PDF ได้ทันที</p>
         </div>
-        <div style="display: flex; gap: 8px;">
-          <button class="btn btn-success" onclick="printQuotation()">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="btn btn-primary btn-sm" onclick="syncQuotationToBilling()" title="ซิงค์ราคาและข้อมูลใบเสนอราคานี้เข้าตารางวางบิลอัตโนมัติ">
+            ⚡ ซิงค์เข้าตารางวางบิล
+          </button>
+          <button class="btn btn-success btn-sm" onclick="printQuotation()">
             🖨️ พิมพ์ / บันทึกเป็น PDF (Print)
           </button>
           <button class="btn btn-outline btn-sm" onclick="toggleQuotationGenerator()">
@@ -1067,23 +1230,28 @@
 
     <!-- Month Filter & Navigation Ribbon -->
     <div class="month-ribbon">
-      <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
         <span style="font-weight: 600; color: var(--text-heading); font-size: 0.95rem;">📅 กรองตามช่วงเดือน:</span>
         <div class="month-pills" id="monthPillsContainer">
-          <button class="month-pill" onclick="selectMonthFilter('all')">ภาพรวมทั้งหมด</button>
-          <button class="month-pill active" onclick="selectMonthFilter('2026-09')">กันยายน 2569</button>
-          <button class="month-pill" onclick="selectMonthFilter('2026-10')">ตุลาคม 2569</button>
-          <button class="month-pill" onclick="selectMonthFilter('2026-11')">พฤศจิกายน 2569</button>
-          <button class="month-pill" onclick="selectMonthFilter('2026-12')">ธันวาคม 2569</button>
+          <button class="month-pill" onclick="selectMonthFilter('all', this)">ภาพรวมทั้งหมด</button>
+          <button class="month-pill active" onclick="selectMonthFilter('2026-09', this)">กันยายน 2569</button>
+          <button class="month-pill" onclick="selectMonthFilter('2026-10', this)">ตุลาคม 2569</button>
+          <button class="month-pill" onclick="selectMonthFilter('2026-11', this)">พฤศจิกายน 2569</button>
+          <button class="month-pill" onclick="selectMonthFilter('2026-12', this)">ธันวาคม 2569</button>
         </div>
       </div>
-      <div style="font-size: 0.85rem; color: var(--text-muted);" id="currentFilterLabel">
-        แสดงข้อมูล: <strong>กันยายน 2569</strong>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="font-size: 0.85rem; color: var(--text-muted);" id="currentFilterLabel">
+          แสดงข้อมูล: <strong>กันยายน 2569</strong>
+        </div>
+        <button id="btnToggleMonthlyCards" class="btn btn-outline btn-sm" onclick="toggleMonthlyCards()" title="ซ่อนหรือแสดงส่วนสรุปรายเดือนนี้">
+          ซ่อนส่วนนี้ ▲
+        </button>
       </div>
     </div>
 
-    <!-- Monthly Statistics Cards -->
-    <div class="stats-grid">
+    <!-- Monthly Statistics Cards (Can be toggled) -->
+    <div id="monthlyStatsCards" class="stats-grid">
       <div class="card" style="margin-bottom: 0;">
         <div class="stat-label" id="statRevenueLabel">รายได้คาดการณ์ (กันยายน 2569)</div>
         <div class="stat-value" id="statGrossRevenue" style="color: #58a6ff;">115,000 ฿</div>
@@ -1106,6 +1274,74 @@
       </div>
     </div>
 
+    <!-- Section: Annual Revenue & Projects Breakdown -->
+    <div class="card" style="margin-top: 24px; border-color: rgba(47, 129, 247, 0.4); background: linear-gradient(180deg, #1c2128, #161b22);">
+      <div class="section-title">
+        <div>
+          <h2>📈 สรุปรายได้ประจำปี & จำแนกงานในแต่ละปี (Annual Revenue Breakdown)</h2>
+          <p class="subtitle">สรุปรายได้รวมทั้งปี ภาษีหัก ณ ที่จ่าย 3% (50 ทวิ) และแจกแจงสัดส่วนงานแต่ละโปรเจกต์</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">เลือกปี:</span>
+          <div class="month-pills" id="yearPillsContainer">
+            <!-- Populated dynamically by JS -->
+          </div>
+          <button id="btnToggleAnnualSection" class="btn btn-outline btn-sm" onclick="toggleAnnualSection()" title="ซ่อนหรือแสดงส่วนสรุปรายปี">
+            ซ่อนส่วนนี้ ▲
+          </button>
+        </div>
+      </div>
+
+      <div id="annualSectionContent">
+
+      <!-- Annual Stats Summary -->
+      <div class="stats-grid" style="margin-bottom: 20px;">
+        <div class="card" style="background-color: var(--card-sub-bg); margin-bottom: 0;">
+          <div class="stat-label" id="annualGrossLabel">รายได้รวมประจำปี (Gross)</div>
+          <div class="stat-value" id="annualGrossValue" style="color: #58a6ff;">0 ฿</div>
+          <div class="stat-desc" id="annualGrossDesc">ยอดรวมก่อนหักภาษี</div>
+        </div>
+        <div class="card" style="background-color: var(--card-sub-bg); margin-bottom: 0;">
+          <div class="stat-label">ภาษีหัก 3% รวมทั้งปี (50 ทวิ)</div>
+          <div class="stat-value" id="annualTaxValue" style="color: #f2cc60;">0 ฿</div>
+          <div class="stat-desc">ยอดรวมสำหรับยื่น ภ.ง.ด. ปลายปี</div>
+        </div>
+        <div class="card" style="background-color: var(--card-sub-bg); margin-bottom: 0;">
+          <div class="stat-label">ยอดสุทธิเข้าบัญชีทั้งปี (Net)</div>
+          <div class="stat-value" id="annualNetValue" style="color: #7ee787;">0 ฿</div>
+          <div class="stat-desc">รายได้สุทธิหลังหักภาษี 3%</div>
+        </div>
+        <div class="card" style="background-color: var(--card-sub-bg); margin-bottom: 0;">
+          <div class="stat-label">จำนวนโปรเจกต์ทั้งหมด</div>
+          <div class="stat-value" id="annualProjectCount" style="color: #d2a8ff;">0 งาน</div>
+          <div class="stat-desc" id="annualProjectDesc">รายการโปรเจกต์ในปีนี้</div>
+        </div>
+      </div>
+
+      <!-- Annual Project Breakdown Table -->
+      <div class="table-container">
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th style="width: 50px; text-align: center;">ลำดับ</th>
+              <th>โปรเจกต์</th>
+              <th>ขอบเขตงาน (Scope)</th>
+              <th>เดือนที่เงินเข้า</th>
+              <th style="text-align: right;">มูลค่างาน (Gross)</th>
+              <th style="text-align: right;">หัก 3%</th>
+              <th style="text-align: right;">ยอดสุทธิ (Net)</th>
+              <th style="width: 170px;">สัดส่วนรายได้ปีนี้ (%)</th>
+              <th style="text-align: center;">สถานะการเงิน</th>
+            </tr>
+          </thead>
+          <tbody id="annualBreakdownBody">
+            <!-- Populated dynamically by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
     <!-- Cross-Month Workload Tracker -->
     <div class="cross-month-card" style="margin-top: 24px;">
       <div class="section-title" style="margin-bottom: 12px;">
@@ -1124,10 +1360,14 @@
     <div class="card">
       <div class="section-title">
         <div>
-          <h2>📁 ตารางเอกสาร วางบิล และภาษี 3% แยกรายเดือน</h2>
-          <p class="subtitle">ตรวจสอบสถานะใบเสนอราคา เลข PO รอบวางบิล และเดือนที่เงินเข้าจริง</p>
+          <h2>📁 ตารางเอกสาร วางบิล และภาษี 3% (ซิงค์โปรเจกต์อัตโนมัติ)</h2>
+          <p class="subtitle">เชื่อมโยงข้อมูลโปรเจกต์ที่กำลังทำอยู่ กำหนดวันวางบิล วันเงินเข้า และกดปิดงาน (Done Project) ได้ทันที</p>
         </div>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+          <select id="billingFilterMode" onchange="renderBillingTable()" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 8px; width: auto; background: rgba(18, 24, 38, 0.85); color: #fff; border: 1px solid rgba(255, 255, 255, 0.15);">
+            <option value="all" selected>🌟 แสดงทุกโปรเจกต์ที่กำลังทำอยู่</option>
+            <option value="month">📅 กรองเฉพาะเดือนที่เลือกด้านบน</option>
+          </select>
           <button class="btn btn-outline btn-sm" onclick="addNewProject()">
             + เพิ่มโปรเจกต์ใหม่
           </button>
@@ -1172,8 +1412,9 @@
             🌐 หน้า Google Calendar ฝังสด (Live Google Calendar)
           </button>
         </div>
-        <div id="calNavBtns" style="display: flex; gap: 8px; align-items: center;">
+        <div id="calNavBtns" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
           <button class="btn btn-outline btn-sm" onclick="changeMonth(-1)">◀ เดือนก่อนหน้า</button>
+          <button class="btn btn-outline btn-sm" onclick="goToToday()" style="color: #60a5fa; border-color: rgba(96, 165, 250, 0.4);" title="ไปยังเดือนปัจจุบัน">📅 วันนี้</button>
           <span id="currentMonthYearLabel" style="font-weight: 600; color: var(--text-heading); min-width: 140px; text-align: center;"></span>
           <button class="btn btn-outline btn-sm" onclick="changeMonth(1)">เดือนถัดไป ▶</button>
         </div>
@@ -1204,48 +1445,123 @@
 
     <!-- Section: Task Management Form & List -->
     <div class="grid-main">
-      <!-- Add / Edit Task Form -->
+      <!-- Add / Edit Task & Main Project Form -->
       <div class="card">
-        <h2>เพิ่มรายการงาน / กำหนดส่ง</h2>
-        <p class="subtitle" style="margin-bottom: 16px;">ระบุกำหนดส่งงานเพื่อจัดลงแต่ละเดือน</p>
-        
-        <form id="taskForm" onsubmit="handleAddTask(event)">
-          <div class="form-group">
-            <label for="taskProject">โปรเจกต์</label>
-            <select id="taskProject" required>
-              <option value="Kaenket">Kaenket (90,000 ฿)</option>
-              <option value="Bangkok Airways">Bangkok Airways (25,000 ฿)</option>
-              <option value="อื่นๆ">อื่นๆ</option>
-            </select>
-          </div>
+        <div class="tab-bar" style="margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 6px;">
+          <button id="tabAddTaskBtn" class="tab-btn active" onclick="switchAddFormTab('task')">
+            📝 เพิ่มรายการงานย่อย
+          </button>
+          <button id="tabAddProjectBtn" class="tab-btn" onclick="switchAddFormTab('project')">
+            📁 เพิ่มโปรเจกต์หลักใหม่
+          </button>
+        </div>
 
-          <div class="form-group">
-            <label for="taskTitle">ชื่องาน / รายละเอียดชิ้นงาน</label>
-            <input type="text" id="taskTitle" placeholder="เช่น ส่ง Draft Key Visual 3 ชิ้นแรก" required>
+        <!-- Tab 1: Task Form -->
+        <div id="addTaskFormView">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <h2 style="font-size: 1.25rem;">เพิ่มรายการงาน / กำหนดส่ง</h2>
+            <button type="button" class="btn btn-outline btn-sm" onclick="switchAddFormTab('project')" style="font-size: 0.76rem; padding: 2px 8px; color: #58a6ff; border-color: rgba(88, 166, 255, 0.4);">+ 📁 เพิ่มโปรเจกต์หลัก</button>
           </div>
+          <p class="subtitle" style="margin-bottom: 16px;">ระบุกำหนดส่งงานเพื่อจัดลงแต่ละเดือน</p>
+          
+          <form id="taskForm" onsubmit="handleAddTask(event)">
+            <div class="form-group">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <label for="taskProject" style="margin-bottom: 0;">โปรเจกต์</label>
+                <a href="javascript:void(0)" onclick="switchAddFormTab('project')" style="font-size: 0.78rem; color: #58a6ff; text-decoration: underline;">+ เพิ่มโปรเจกต์หลักใหม่</a>
+              </div>
+              <select id="taskProject" required></select>
+            </div>
 
-          <div class="form-group">
-            <label for="taskDueDate">กำหนดส่ง (Deadline)</label>
-            <input type="date" id="taskDueDate" required>
-          </div>
+            <div class="form-group">
+              <label for="taskTitle">ชื่องาน / รายละเอียดชิ้นงาน</label>
+              <input type="text" id="taskTitle" placeholder="เช่น ส่ง Draft Key Visual 3 ชิ้นแรก" required>
+            </div>
 
-          <div class="form-group">
-            <label for="taskStatus">สถานะ</label>
-            <select id="taskStatus">
-              <option value="To Do">รอดำเนินการ (To Do)</option>
-              <option value="In Progress">กำลังทำ (In Progress)</option>
-              <option value="In Review">ส่งตรวจ / รอแก้ (In Review)</option>
-              <option value="Done">เสร็จสมบูรณ์ (Done)</option>
-            </select>
-          </div>
+            <div class="form-group">
+              <label for="taskDueDate">กำหนดส่ง (Deadline)</label>
+              <input type="date" id="taskDueDate" required>
+            </div>
 
-          <div class="form-group">
-            <label for="taskNotes">รายละเอียดเพิ่มเติม / ลิงก์ Drive</label>
-            <textarea id="taskNotes" rows="3" placeholder="ระบุ brief, โฟลเดอร์งาน หรือสิ่งที่ต้องเตรียม..."></textarea>
-          </div>
+            <div class="form-group">
+              <label for="taskStatus">สถานะ</label>
+              <select id="taskStatus">
+                <option value="To Do">รอดำเนินการ (To Do)</option>
+                <option value="In Progress">กำลังทำ (In Progress)</option>
+                <option value="In Review">ส่งตรวจ / รอแก้ (In Review)</option>
+                <option value="Done">เสร็จสมบูรณ์ (Done)</option>
+              </select>
+            </div>
 
-          <button type="submit" class="btn-primary" style="width: 100%;">บันทึกงานลงระบบ</button>
-        </form>
+            <div class="form-group">
+              <label for="taskNotes">รายละเอียดเพิ่มเติม / ลิงก์ Drive</label>
+              <textarea id="taskNotes" rows="3" placeholder="ระบุ brief, โฟลเดอร์งาน หรือสิ่งที่ต้องเตรียม..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%;">บันทึกงานลงระบบ</button>
+          </form>
+        </div>
+
+        <!-- Tab 2: Project Form -->
+        <div id="addProjectFormView" style="display: none;">
+          <h2 style="font-size: 1.25rem; margin-bottom: 4px;">📁 เพิ่มโปรเจกต์หลักใหม่</h2>
+          <p class="subtitle" style="margin-bottom: 16px;">สร้างโปรเจกต์เพื่อเชื่อมโยงงบประมาณ วางบิล และตารางงาน</p>
+
+          <form id="projectMainForm" onsubmit="handleAddMainProject(event)">
+            <div class="form-group">
+              <label for="newProjName">ชื่อโปรเจกต์หลัก <span style="color: #f43f5e;">*</span></label>
+              <input type="text" id="newProjName" placeholder="เช่น Kaenket, Bangkok Airways, CP Brand" required>
+            </div>
+
+            <div class="form-group">
+              <label for="newProjDesc">ขอบเขตงาน / คำอธิบายโปรเจกต์</label>
+              <input type="text" id="newProjDesc" placeholder="เช่น AI Campaign Visual Production 7 ชิ้น + VDO">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group">
+                <label for="newProjFee">มูลค่างาน (Gross ฿) <span style="color: #f43f5e;">*</span></label>
+                <input type="number" id="newProjFee" placeholder="เช่น 90000" min="0" required oninput="calcNewProjTax()">
+              </div>
+              <div class="form-group">
+                <label for="newProjTax">หัก ณ ที่จ่าย 3%</label>
+                <input type="text" id="newProjTax" readonly placeholder="คำนวณอัตโนมัติ" style="background: rgba(255,255,255,0.05); color: #f2cc60;">
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group">
+                <label for="newProjNet">ยอดสุทธิ (Net ฿)</label>
+                <input type="text" id="newProjNet" readonly placeholder="ยอดเข้าจริง" style="background: rgba(255,255,255,0.05); color: #7ee787; font-weight: 700;">
+              </div>
+              <div class="form-group">
+                <label for="newProjPaymentMonth">เดือนที่เงินเข้า</label>
+                <input type="month" id="newProjPaymentMonth" value="2026-09" required>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group">
+                <label for="newProjBillingDate">วันที่วางบิล</label>
+                <input type="date" id="newProjBillingDate">
+              </div>
+              <div class="form-group">
+                <label for="newProjStatus">สถานะการเงิน</label>
+                <select id="newProjStatus">
+                  <option value="รอเริ่ม">⏳ รอเริ่ม</option>
+                  <option value="มัดจำ">💳 มัดจำ</option>
+                  <option value="จ่ายแล้ว">✅ จ่ายแล้ว</option>
+                  <option value="รอวางบิล">📄 รอวางบิล</option>
+                  <option value="เครดิตเทอม">🕒 เครดิตเทอม</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 6px;">
+              💾 บันทึกโปรเจกต์หลักลงระบบ
+            </button>
+          </form>
+        </div>
       </div>
 
       <!-- Task List -->
@@ -1274,7 +1590,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = 'freelance_tasks_data';
+    const STORAGE_KEY = 'freelance_tasks_data_v7';
 
     /* Quotation Line Items State */
     let qtItems = [
@@ -1437,7 +1753,7 @@
     }
 
     /* Existing Tasks and Calendar logic */
-    const BILLING_STORAGE_KEY = 'freelance_billing_data';
+    const BILLING_STORAGE_KEY = 'freelance_billing_data_v7';
 
     const defaultBillingData = [
       {
@@ -1448,11 +1764,13 @@
         tax: 2700,
         net: 87300,
         expectedMonth: '2026-09',
+        paymentDate: '2026-09-30',
         quotationStatus: 'ส่งแล้ว (01/09)',
         poNumber: '- รอระบุ -',
-        billingDate: 'รอกำหนด',
+        billingDate: '15 กันยายน 2569',
+        billingDateIso: '2026-09-15',
         taxCertStatus: 'ยังไม่ได้รับ',
-        paymentStatus: 'รอเริ่มงาน / มัดจำ'
+        paymentStatus: 'รอเริ่ม'
       },
       {
         id: 'b2',
@@ -1462,21 +1780,179 @@
         tax: 750,
         net: 24250,
         expectedMonth: '2026-10',
+        paymentDate: '2026-10-31',
         quotationStatus: 'เตรียมออกใบราคา',
         poNumber: '- รอระบุ -',
-        billingDate: 'สิ้นเดือน ก.ย.',
+        billingDate: '30 กันยายน 2569',
+        billingDateIso: '2026-09-30',
         taxCertStatus: 'ยังไม่ได้รับ',
-        paymentStatus: 'เครดิต 30 วัน (เงินเข้า ต.ค.)'
+        paymentStatus: 'รอเริ่ม'
       }
     ];
 
-    function loadBillingData() {
-      const saved = localStorage.getItem(BILLING_STORAGE_KEY);
-      if (saved) {
-        try { return JSON.parse(saved); } catch(e) {}
-      }
-      return defaultBillingData;
+    function updateBillingPaymentDate(id, dateStr) {
+      const proj = billingData.find(x => x.id === id);
+      if (!proj || !dateStr) return;
+      proj.paymentDate = dateStr;
+      proj.expectedMonth = dateStr.substring(0, 7);
+      saveBillingData();
     }
+
+    function updateBillingDate(id, dateStr) {
+      const proj = billingData.find(x => x.id === id);
+      if (!proj) return;
+      proj.billingDateIso = dateStr;
+      if (dateStr) {
+        const parts = dateStr.split('-');
+        const day = parseInt(parts[2]);
+        const mIdx = parseInt(parts[1]) - 1;
+        const thaiY = parseInt(parts[0]) + 543;
+        proj.billingDate = `${day} ${thaiMonths[mIdx]} ${thaiY}`;
+      } else {
+        proj.billingDate = 'รอกำหนด';
+      }
+      saveBillingData();
+    }
+
+    function updatePaymentStatus(id, newStatus) {
+      const proj = billingData.find(x => x.id === id);
+      if (!proj) return;
+      proj.paymentStatus = newStatus;
+      saveBillingData();
+    }
+
+            function sanitizeBillingItem(b) {
+      if (!b || typeof b !== 'object') return null;
+      let project = String(b.project || 'Kaenket').trim();
+      if (project.includes(',')) project = project.split(',')[0].trim();
+      if (project.length > 50) project = project.substring(0, 50);
+
+      let quotationStatus = String(b.quotationStatus || 'ออกแล้ว').trim();
+      if (quotationStatus.includes('GMT') || quotationStatus.includes('Production') || quotationStatus.length > 35 || quotationStatus.split(',').length > 1) {
+        quotationStatus = project.toLowerCase().includes('kaenket') ? 'ส่งแล้ว (01/09)' : 'เตรียมออกใบราคา';
+      }
+
+      let poNumber = String(b.poNumber || '- รอระบุ -').trim();
+      if (poNumber.includes('GMT') || poNumber.includes('Production') || poNumber.length > 25 || poNumber.includes(',')) {
+        poNumber = '- รอระบุ -';
+      }
+
+      let billingDate = String(b.billingDate || 'รอกำหนด').trim();
+      if (billingDate.includes('GMT') || billingDate.length > 30 || billingDate.includes(',')) {
+        billingDate = project.toLowerCase().includes('kaenket') ? '15 กันยายน 2569' : '30 กันยายน 2569';
+      }
+
+      let paymentDate = String(b.paymentDate || '').trim();
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(paymentDate)) {
+        paymentDate = project.toLowerCase().includes('kaenket') ? '2026-09-30' : '2026-10-31';
+      }
+
+      let expectedMonth = String(b.expectedMonth || '').trim();
+      if (!/^\d{4}-\d{2}$/.test(expectedMonth)) {
+        expectedMonth = paymentDate.substring(0, 7);
+      }
+
+      let gross = parseFloat(b.gross);
+      if (isNaN(gross) || gross <= 0) {
+        gross = project.toLowerCase().includes('kaenket') ? 90000 : 25000;
+      }
+      let tax = parseFloat(b.tax);
+      if (isNaN(tax) || tax <= 0) tax = Math.round(gross * 0.03);
+      let net = parseFloat(b.net);
+      if (isNaN(net) || net <= 0) net = gross - tax;
+
+      let taxCertStatus = String(b.taxCertStatus || 'ยังไม่ได้รับ').trim();
+      if (taxCertStatus.length > 20 || taxCertStatus.includes(',')) taxCertStatus = 'ยังไม่ได้รับ';
+
+      let paymentStatus = String(b.paymentStatus || 'รอเริ่ม').trim();
+      if (paymentStatus.length > 20 || paymentStatus.includes(',')) paymentStatus = 'มัดจำ';
+
+      return {
+        id: b.id || ('b_' + Math.random().toString(36).substr(2, 9)),
+        project: project,
+        desc: String(b.desc || (project.toLowerCase().includes('kaenket') ? 'AI Campaign Visual Production' : 'Creative & Artwork Design')).trim(),
+        gross: gross,
+        tax: tax,
+        net: net,
+        expectedMonth: expectedMonth,
+        paymentDate: paymentDate,
+        quotationStatus: quotationStatus,
+        poNumber: poNumber,
+        billingDate: billingDate,
+        billingDateIso: (b.billingDateIso && /^\d{4}-\d{2}-\d{2}$/.test(b.billingDateIso)) ? b.billingDateIso : paymentDate,
+        taxCertStatus: taxCertStatus,
+        paymentStatus: paymentStatus
+      };
+    }
+
+    function sanitizeTaskItem(t) {
+      if (!t || typeof t !== 'object') return null;
+      let project = String(t.project || 'Kaenket').trim();
+      if (project.includes(',')) project = project.split(',')[0].trim();
+
+      let title = String(t.title || '').trim();
+      if (title.includes('GMT') || title.split(',').length > 2) {
+        const parts = title.split(',');
+        title = parts[1] || parts[0] || 'งานส่งมอบ';
+      }
+
+      let dueDate = String(t.dueDate || '').trim();
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(dueDate)) {
+        if (dueDate.includes('GMT')) {
+          try {
+            const d = new Date(dueDate);
+            if (!isNaN(d.getTime())) {
+              dueDate = d.toISOString().split('T')[0];
+            } else {
+              dueDate = '2026-09-15';
+            }
+          } catch(e) {
+            dueDate = '2026-09-15';
+          }
+        } else {
+          dueDate = '2026-09-15';
+        }
+      }
+
+      let status = String(t.status || 'To Do').trim();
+      if (!['To Do', 'In Progress', 'Done'].includes(status)) {
+        if (status.includes('Done')) status = 'Done';
+        else if (status.includes('Progress')) status = 'In Progress';
+        else status = 'To Do';
+      }
+
+      let priority = String(t.priority || 'High').trim();
+      if (!['High', 'Medium', 'Low'].includes(priority)) priority = 'High';
+
+      let notes = String(t.notes || '').trim();
+      if (notes.includes('GMT') || notes.length > 200) notes = '';
+
+      return {
+        id: t.id || ('t_' + Math.random().toString(36).substr(2, 9)),
+        project: project,
+        title: title,
+        dueDate: dueDate,
+        status: status,
+        priority: priority,
+        notes: notes
+      };
+    }
+
+        function loadBillingData() {
+      // Clear legacy corrupted keys
+      ['freelance_billing_data_v1', 'freelance_billing_data_v2', 'freelance_billing_data_v3', 'freelance_billing_data_v4'].forEach(k => localStorage.removeItem(k));
+
+      const saved = localStorage.getItem(BILLING_STORAGE_KEY);
+      let data = defaultBillingData;
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) data = parsed;
+        } catch(e) {}
+      }
+      return data.map(sanitizeBillingItem).filter(Boolean);
+    }
+
 
     let billingData = loadBillingData();
 
@@ -1486,6 +1962,8 @@
       renderBillingTable();
       renderTimeline();
       updateProjectDropdowns();
+      renderAnnualSummary();
+      pushToGoogleSheet();
     }
 
     function deleteProject(projectId) {
@@ -1505,6 +1983,115 @@
 
         alert(`ยกเลิกและลบโปรเจกต์ "${projName}" เรียบร้อยแล้ว`);
       }
+    }
+
+    function editProjectFee(projectId) {
+      const proj = billingData.find(b => b.id === projectId);
+      if (!proj) return;
+
+      const currentFee = proj.gross;
+      const input = prompt(`แก้ไขมูลค่างานสำหรับโปรเจกต์ "${proj.project}"
+(ระบุยอดเงินบาท):`, currentFee);
+      if (input === null) return;
+
+      const newGross = parseFloat(input.replace(/,/g, '').trim());
+      if (isNaN(newGross) || newGross < 0) {
+        alert('กรุณากรอกตัวเลขจำนวนเงินที่ถูกต้อง');
+        return;
+      }
+
+      const newTax = Math.round(newGross * 0.03);
+      const newNet = newGross - newTax;
+
+      proj.gross = newGross;
+      proj.tax = newTax;
+      proj.net = newNet;
+
+      const confirmApprove = confirm(`มูลค่างานใหม่: ${newGross.toLocaleString()} ฿ (หัก 3%: ${newTax.toLocaleString()} ฿ | สุทธิ: ${newNet.toLocaleString()} ฿)
+
+กด "ตกลง (OK)" หากลูกค้าอนุมัติ (Approve) ราคานี้แล้ว
+กด "ยกเลิก (Cancel)" หากยังอยู่ระหว่างรอ Approve ราคา`);
+      if (confirmApprove) {
+        proj.quotationStatus = 'Approve ราคาแล้ว';
+      } else {
+        proj.quotationStatus = 'รอ Approve ราคา';
+      }
+
+      saveBillingData();
+      alert(`อัปเดตมูลค่างาน "${proj.project}" เป็น ${newGross.toLocaleString()} บาท เรียบร้อยแล้ว`);
+    }
+
+        function doneProject(projectId) {
+      const proj = billingData.find(b => b.id === projectId);
+      if (!proj) return;
+      const projName = proj.project;
+
+      const pTasks = tasks.filter(t => t.project === projName || (projName.includes(t.project) && t.project !== 'อื่นๆ') || (t.project.includes(projName) && projName !== 'อื่นๆ'));
+
+      if (confirm(`คุณต้องการปิดงานโปรเจกต์ "${projName}" (Done Project) ใช่หรือไม่?
+
+ระบบจะดำเนินการให้อัตโนมัติ:
+1. ปรับทุกขั้นตอนงานย่อย (${pTasks.length} งาน) เป็นสถานะ "Done"
+2. ปรับสถานะการเงินเป็น "จ่ายแล้ว"
+3. ปรับความคืบหน้าเป็น 100% ครบถ้วน
+
+ยอดเงินและข้อมูลทั้งหมดจะเชื่อมโยงเข้าสู่สถิติทันทีโดยไม่ต้องกรอกซ้ำ`)) {
+        tasks.forEach(t => {
+          if (t.project === projName || (projName.includes(t.project) && t.project !== 'อื่นๆ') || (t.project.includes(projName) && projName !== 'อื่นๆ')) {
+            t.status = 'Done';
+          }
+        });
+        saveTasks();
+
+        proj.paymentStatus = 'จ่ายแล้ว';
+        proj.quotationStatus = 'Approve แล้ว / ปิดงาน';
+        saveBillingData();
+
+        alert(`🎉 ปิดงานโปรเจกต์ "${projName}" สมบูรณ์เรียบร้อยแล้ว!
+ทุกงานย่อยถูกปรับเป็น Done และสถานะการเงินเปลี่ยนเป็น "จ่ายแล้ว" เรียบร้อยครับ`);
+      }
+    }
+
+    function syncQuotationToBilling() {
+      const clientName = document.getElementById('qtClientName').value.trim() || 'ลูกค้าทั่วไป';
+      const projectName = document.getElementById('qtProjectName').value.trim() || clientName;
+      const qtNum = document.getElementById('qtNumber').value.trim() || 'QT-' + Date.now();
+      const taxOption = parseFloat(document.getElementById('qtTaxOption').value) || 0;
+      
+      let subtotal = 0;
+      qtItems.forEach(it => { subtotal += (it.total || 0); });
+      const tax = (subtotal * taxOption) / 100;
+      const net = subtotal - tax;
+
+      let proj = billingData.find(b => b.project.toLowerCase() === projectName.toLowerCase());
+      if (proj) {
+        proj.gross = subtotal;
+        proj.tax = tax;
+        proj.net = net;
+        proj.quotationStatus = `ออกแล้ว (${qtNum})`;
+        proj.poNumber = qtNum;
+      } else {
+        const newProj = {
+          id: 'b_' + Date.now(),
+          project: projectName,
+          desc: document.getElementById('qtProjectName').value || 'งานออกแบบและผลิตสร้างสรรค์',
+          gross: subtotal,
+          tax: tax,
+          net: net,
+          expectedMonth: selectedMonth !== 'all' ? selectedMonth : '2026-09',
+          paymentDate: '2026-09-30',
+          quotationStatus: `ออกแล้ว (${qtNum})`,
+          poNumber: qtNum,
+          billingDate: '15 กันยายน 2569',
+          billingDateIso: '2026-09-15',
+          taxCertStatus: 'ยังไม่ได้รับ',
+          paymentStatus: 'มัดจำ'
+        };
+        billingData.push(newProj);
+      }
+
+      saveBillingData();
+      alert(`⚡ ซิงค์ข้อมูลใบเสนอราคา ${qtNum} (ยอด ${subtotal.toLocaleString()} ฿) เข้าสู่ตารางวางบิลเรียบร้อยแล้ว!`);
     }
 
     function addNewProject() {
@@ -1561,7 +2148,7 @@
       if (projects.includes(currentFilterVal) || currentFilterVal === 'all') filterSelect.value = currentFilterVal;
     }
 
-    function renderTimeline() {
+        function renderTimeline() {
       const container = document.getElementById('timelineContainer');
       if (!container) return;
 
@@ -1571,22 +2158,27 @@
       }
 
       container.innerHTML = billingData.map(b => {
-        const projBadge = b.project === 'Kaenket' ? 'badge-kaenket' : (b.project === 'Bangkok Airways' ? 'badge-bangkok' : 'badge-status-todo');
-        const mLabel = monthNamesThai[b.expectedMonth] || b.expectedMonth;
-        const pTasks = tasks.filter(t => t.project === b.project);
+        const projBadge = b.project.includes('Kaenket') ? 'badge-kaenket' : (b.project.includes('Bangkok') ? 'badge-bangkok' : 'badge-status-todo');
+        const safeMonth = (b.expectedMonth && /^\d{4}-\d{2}$/.test(b.expectedMonth)) ? b.expectedMonth : (b.paymentDate && /^\d{4}-\d{2}/.test(b.paymentDate) ? b.paymentDate.substring(0, 7) : '2026-09');
+        const mLabel = monthNamesThai[safeMonth] || safeMonth;
+        
+        const pTasks = tasks.filter(t => t.project === b.project || (b.project.includes(t.project) && t.project !== 'อื่นๆ') || (t.project.includes(b.project) && b.project !== 'อื่นๆ'));
         const doneTasks = pTasks.filter(t => t.status === 'Done');
-        const pct = pTasks.length > 0 ? Math.round((doneTasks.length / pTasks.length) * 100) : 0;
-        const color = b.project === 'Kaenket' ? '#8957e5' : '#2f81f7';
+        const pct = pTasks.length > 0 ? Math.round((doneTasks.length / pTasks.length) * 100) : (b.paymentStatus === 'จ่ายแล้ว' ? 100 : 0);
+        const color = b.project.includes('Kaenket') ? '#8b5cf6' : '#3b82f6';
+
+        const displayTitle = (b.desc && b.desc !== b.project && !b.desc.includes(b.project))
+          ? `<span class="badge ${projBadge}">${b.project}</span> <strong style="color: var(--text-heading);">${b.desc}</strong>`
+          : `<strong class="badge ${projBadge}" style="font-size: 0.92rem; padding: 4px 12px;">${b.project}</strong>`;
 
         return `
           <div class="timeline-item">
-            <div style="min-width: 220px;">
+            <div style="min-width: 240px;">
               <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="badge ${projBadge}">${b.project}</span>
-                <strong style="color: var(--text-heading);">${b.desc || b.project}</strong>
+                ${displayTitle}
               </div>
               <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
-                มูลค่า: <strong>${b.gross.toLocaleString()} ฿</strong> (Net: ${b.net.toLocaleString()} ฿) • กำหนดเงินเข้า: <strong>${mLabel}</strong>
+                มูลค่า: <strong onclick="editProjectFee('${b.id}')" style="cursor: pointer; color: #58a6ff; text-decoration: underline dotted;" title="คลิกเพื่อแก้ไขมูลค่างาน">${b.gross.toLocaleString()} ฿ ✏️</strong> (Net: ${b.net.toLocaleString()} ฿) • กำหนดเงินเข้า: <strong>${mLabel}</strong>
               </div>
             </div>
             <div class="timeline-progress">
@@ -1599,6 +2191,12 @@
               </div>
             </div>
             <div style="display: flex; align-items: center; gap: 8px;">
+              <button class="btn btn-success btn-sm" onclick="doneProject('${b.id}')" title="กดปิดงานเมื่อส่งมอบครบถ้วน">
+                ✅ ปิดงาน
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="editProjectFee('${b.id}')" title="แก้ไขมูลค่างาน">
+                ✏️ แก้ราคา
+              </button>
               <button class="btn btn-danger btn-sm" onclick="deleteProject('${b.id}')" title="ลบหรือยกเลิกโปรเจกต์">
                 🗑️ ลบ / ยกเลิก
               </button>
@@ -1614,59 +2212,74 @@
         project: 'Kaenket',
         title: 'กำหนด Mood & Tone และ Concept KV ร่วมกับ Brief',
         dueDate: '2026-09-09',
-        status: 'In Progress',
+        status: 'Done',
         notes: 'เตรียมแนวทาง Campaign Visual Direction 7 ภาพ (งบ 90,000 บ.)'
       },
       {
         id: '2',
         project: 'Kaenket',
-        title: 'ส่ง Draft แรก Key Visual Artwork (ชุดแรก)',
-        dueDate: '2026-09-14',
-        status: 'To Do',
-        notes: 'AI Visual Generation + Composition Review'
+        title: 'ส่ง 4 AW แรก',
+        dueDate: '2026-09-11',
+        status: 'In Progress',
+        notes: 'ส่ง 4 AW แรก เลือกผ้าสีเดียว ไม่ให้เด่นเกิน'
       },
       {
         id: '3',
         project: 'Kaenket',
-        title: 'พัฒนา Keyframe & Shot List สำหรับ Hyper Ad 20 วินาที',
-        dueDate: '2026-09-18',
+        title: 'ออก AW 4 ชิ้นแรก',
+        dueDate: '2026-09-13',
         status: 'To Do',
-        notes: 'AI Video Shot Development'
+        notes: ''
       },
       {
         id: '4',
-        project: 'Bangkok Airways',
-        title: 'ยืนยัน Scope of Work & สรุป Deliverables',
-        dueDate: '2026-09-10',
+        project: 'Kaenket',
+        title: 'เจน ของ องค์ประกอบ HYPER ad ส่ง',
+        dueDate: '2026-09-15',
         status: 'To Do',
-        notes: 'มูลค่า 25,000 บาท สรุปชิ้นงานและวันส่งมอบ'
+        notes: 'เจนของเพื่อ prepro'
       },
       {
         id: '5',
         project: 'Kaenket',
-        title: 'ส่งมอบ Final Master KV 7 ชิ้น (300 DPI) & Final VDO',
-        dueDate: '2026-10-05',
+        title: 'ส่ง 4 lay ที่เหลือ',
+        dueDate: '2026-09-16',
         status: 'To Do',
-        notes: 'ส่งมอบงานไฟนอลและเตรียมยื่นวางบิลงวดสุดท้าย'
+        notes: ''
       },
       {
         id: '6',
-        project: 'Bangkok Airways',
-        title: 'ส่งมอบ Artwork Final & วางบิลรอบบัญชี',
-        dueDate: '2026-09-25',
+        project: 'Kaenket',
+        title: 'AW 4 ชิ้นสุดท้าย',
+        dueDate: '2026-09-20',
         status: 'To Do',
-        notes: 'ยื่นเอกสารวางบิลรอบสิ้นเดือน ก.ย. รับเงิน ต.ค.'
+        notes: ''
+      },
+      {
+        id: '7',
+        project: 'Kaenket',
+        title: 'ทำ HYPER AD',
+        dueDate: '2026-09-23',
+        status: 'To Do',
+        notes: 'รอ foottage location จากฟิล์ม'
       }
     ];
 
-    function loadTasks() {
+        function loadTasks() {
+      // Clear legacy corrupted keys
+      ['freelance_tasks_data_v1', 'freelance_tasks_data_v2', 'freelance_tasks_data_v3', 'freelance_tasks_data_v4'].forEach(k => localStorage.removeItem(k));
+
       const saved = localStorage.getItem(STORAGE_KEY);
+      let data = defaultTasks;
       if (saved) {
         try {
-          return JSON.parse(saved);
-        } catch (e) {
-          return defaultTasks;
-        }
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) data = parsed;
+        } catch(e) {}
+      }
+      return data.map(sanitizeTaskItem).filter(Boolean);
+    }
+
       }
       return defaultTasks;
     }
@@ -1683,23 +2296,165 @@
       'all': 'ภาพรวมทั้งหมด (ทุกเดือน)'
     };
 
-    function selectMonthFilter(month) {
-      selectedMonth = month;
-      const pills = document.querySelectorAll('.month-pill');
-      pills.forEach(p => p.classList.remove('active'));
-      event.target.classList.add('active');
+    function toggleMonthlyCards() {
+      const cards = document.getElementById('monthlyStatsCards');
+      const btn = document.getElementById('btnToggleMonthlyCards');
+      if (!cards || !btn) return;
 
-      document.getElementById('currentFilterLabel').innerHTML = `แสดงข้อมูล: <strong>${monthNamesThai[month] || month}</strong>`;
+      const isHidden = cards.style.display === 'none';
+      if (isHidden) {
+        cards.style.display = 'grid';
+        btn.innerHTML = 'ซ่อนส่วนนี้ ▲';
+        localStorage.setItem('hide_monthly_cards', '0');
+      } else {
+        cards.style.display = 'none';
+        btn.innerHTML = 'แสดงสรุปรายเดือน ▼';
+        localStorage.setItem('hide_monthly_cards', '1');
+      }
+    }
 
-      if (month !== 'all') {
-        const parts = month.split('-');
-        currentCalDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, 1);
+    function toggleAnnualSection() {
+      const content = document.getElementById('annualSectionContent');
+      const btn = document.getElementById('btnToggleAnnualSection');
+      if (!content || !btn) return;
+
+      const isHidden = content.style.display === 'none';
+      if (isHidden) {
+        content.style.display = 'block';
+        btn.innerHTML = 'ซ่อนส่วนนี้ ▲';
+        localStorage.setItem('hide_annual_section', '0');
+      } else {
+        content.style.display = 'none';
+        btn.innerHTML = 'แสดงสรุปรายปี ▼';
+        localStorage.setItem('hide_annual_section', '1');
+      }
+    }
+
+    
+    function selectMonthFilter(month, btnElement) {
+      try {
+        selectedMonth = month;
+        const pills = document.querySelectorAll("#monthPillsContainer .month-pill");
+        pills.forEach(p => p.classList.remove("active"));
+        
+        if (btnElement && btnElement.classList) {
+          btnElement.classList.add("active");
+        } else {
+          pills.forEach(p => {
+            const clickAttr = p.getAttribute("onclick") || "";
+            if (clickAttr.includes(" + month + ")) p.classList.add("active");
+          });
+        }
+
+        const label = document.getElementById("currentFilterLabel");
+        if (label) {
+          label.innerHTML = "à¹à¸ªà¸à¸à¸à¹à¸­à¸¡à¸¹à¸¥: <strong>" + (monthNamesThai[month] || month) + "</strong>";
+        }
+
+        if (month !== "all" && typeof month === "string" && month.includes("-")) {
+          const parts = month.split("-");
+          currentCalDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, 1);
+        }
+
+        updateStats();
+        renderTasks();
+        renderCalendar();
+        renderBillingTable();
+      } catch (err) {
+        console.error("selectMonthFilter error:", err);
+      }
+    }
+
+
+    /* Annual Summary Logic */
+    let selectedAnnualYear = '2026';
+
+    function selectYearFilter(year) {
+      selectedAnnualYear = year;
+      renderAnnualSummary();
+    }
+
+    function renderAnnualSummary() {
+      const pillsContainer = document.getElementById('yearPillsContainer');
+      const tbody = document.getElementById('annualBreakdownBody');
+      if (!tbody) return;
+
+      const yearsSet = new Set();
+      billingData.forEach(b => {
+        if (b.expectedMonth && b.expectedMonth.length >= 4) {
+          yearsSet.add(b.expectedMonth.substring(0, 4));
+        }
+      });
+      if (yearsSet.size === 0) yearsSet.add('2026');
+
+      const sortedYears = Array.from(yearsSet).sort();
+
+      if (pillsContainer) {
+        let pillsHtml = `<button class="month-pill ${selectedAnnualYear === 'all' ? 'active' : ''}" onclick="selectYearFilter('all')">ทุกปี</button>`;
+        sortedYears.forEach(y => {
+          const thaiYear = parseInt(y) + 543;
+          pillsHtml += `<button class="month-pill ${selectedAnnualYear === y ? 'active' : ''}" onclick="selectYearFilter('${y}')">ปี ${thaiYear} (${y})</button>`;
+        });
+        pillsContainer.innerHTML = pillsHtml;
       }
 
-      updateStats();
-      renderTasks();
-      renderCalendar();
-      renderBillingTable();
+      let projects = billingData;
+      if (selectedAnnualYear !== 'all') {
+        projects = billingData.filter(b => b.expectedMonth && b.expectedMonth.startsWith(selectedAnnualYear));
+      }
+
+      let totalGross = 0;
+      let totalTax = 0;
+      let totalNet = 0;
+
+      projects.forEach(b => {
+        totalGross += b.gross;
+        totalTax += b.tax;
+        totalNet += b.net;
+      });
+
+      const yearLabel = selectedAnnualYear === 'all' ? 'ทั้งหมดทุกปี' : `ปี ${parseInt(selectedAnnualYear) + 543} (${selectedAnnualYear})`;
+      document.getElementById('annualGrossLabel').textContent = `รายได้รวม (${yearLabel})`;
+      document.getElementById('annualGrossValue').textContent = `${totalGross.toLocaleString()} ฿`;
+      document.getElementById('annualTaxValue').textContent = `${totalTax.toLocaleString()} ฿`;
+      document.getElementById('annualNetValue').textContent = `${totalNet.toLocaleString()} ฿`;
+      document.getElementById('annualProjectCount').textContent = `${projects.length} โปรเจกต์`;
+      document.getElementById('annualProjectDesc').textContent = `รวมมูลค่าสุทธิ ${totalNet.toLocaleString()} ฿`;
+
+      if (projects.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 24px;">ไม่พบรายการงานใน${yearLabel}</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = projects.map((b, idx) => {
+        const projBadge = b.project === 'Kaenket' ? 'badge-kaenket' : (b.project === 'Bangkok Airways' ? 'badge-bangkok' : 'badge-status-todo');
+        const mLabel = monthNamesThai[b.expectedMonth] || b.expectedMonth;
+        const sharePct = totalGross > 0 ? ((b.gross / totalGross) * 100).toFixed(1) : '0.0';
+        const color = b.project === 'Kaenket' ? '#8957e5' : '#2f81f7';
+
+        return `
+          <tr>
+            <td style="text-align: center; color: var(--text-muted);">${idx + 1}</td>
+            <td><strong class="badge ${projBadge}">${b.project}</strong></td>
+            <td>${b.desc || b.project}</td>
+            <td><span class="doc-badge">📅 ${mLabel}</span></td>
+            <td style="text-align: right; font-weight: 600; white-space: nowrap;">
+              <span onclick="editProjectFee('${b.id}')" style="cursor: pointer; color: #58a6ff; text-decoration: underline dotted;" title="คลิกเพื่อแก้ไขมูลค่างาน">${b.gross.toLocaleString()} ฿ ✏️</span>
+            </td>
+            <td style="text-align: right; color: #f2cc60;">${b.tax.toLocaleString()} ฿</td>
+            <td style="text-align: right; font-weight: 700; color: #7ee787;">${b.net.toLocaleString()} ฿</td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="flex: 1; background-color: #21262d; height: 6px; border-radius: 3px; overflow: hidden;">
+                  <div style="width: ${sharePct}%; height: 100%; background-color: ${color}; border-radius: 3px;"></div>
+                </div>
+                <span style="font-size: 0.8rem; font-weight: 600; min-width: 46px; text-align: right;">${sharePct}%</span>
+              </div>
+            </td>
+            <td style="text-align: center;"><span class="badge badge-status-progress">${b.paymentStatus}</span></td>
+          </tr>
+        `;
+      }).join('');
     }
 
     function updateStats() {
@@ -1737,34 +2492,66 @@
       document.getElementById('statActiveJobs').textContent = `${activeProjectsCount} โปรเจกต์ (${filteredTasks.length} ขั้นตอน)`;
     }
 
-    function renderBillingTable() {
+        function renderBillingTable() {
       const tbody = document.getElementById('billingTableBody');
+      if (!tbody) return;
+      
+      const filterSelect = document.getElementById("billingFilterMode") || document.getElementById("billingFilterSelect");
+      const filterMode = filterSelect ? filterSelect.value : 'all';
+
       let data = billingData;
-      if (selectedMonth !== 'all') {
-        data = billingData.filter(b => b.expectedMonth === selectedMonth);
+      if (filterMode === 'month' && selectedMonth !== 'all') {
+        data = billingData.filter(b => {
+          const safeM = (b.expectedMonth && /^\d{4}-\d{2}$/.test(b.expectedMonth)) 
+            ? b.expectedMonth 
+            : (b.paymentDate && /^\d{4}-\d{2}/.test(b.paymentDate) ? b.paymentDate.substring(0, 7) : '');
+          return safeM === selectedMonth;
+        });
       }
 
       if (data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="11" style="text-align: center; color: var(--text-muted); padding: 20px;">ไม่มีรายการวางบิล/รับเงินในเดือนนี้</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="11" style="text-align: center; color: var(--text-muted); padding: 24px;">ไม่มีรายการวางบิล/รับเงินในเดือนนี้ (สามารถเปลี่ยนตัวเลือกด้านบนเป็น "🌟 แสดงทุกโปรเจกต์")</td></tr>`;
         return;
       }
 
       tbody.innerHTML = data.map(b => {
-        const projBadge = b.project === 'Kaenket' ? 'badge-kaenket' : (b.project === 'Bangkok Airways' ? 'badge-bangkok' : 'badge-status-todo');
-        const mLabel = monthNamesThai[b.expectedMonth] || b.expectedMonth;
+        const projBadge = b.project.includes('Kaenket') ? 'badge-kaenket' : (b.project.includes('Bangkok') ? 'badge-bangkok' : 'badge-status-todo');
+        const safeMonth = (b.expectedMonth && /^\d{4}-\d{2}$/.test(b.expectedMonth)) ? b.expectedMonth : (b.paymentDate && /^\d{4}-\d{2}/.test(b.paymentDate) ? b.paymentDate.substring(0, 7) : '2026-09');
+        const mLabel = monthNamesThai[safeMonth] || safeMonth;
+
         return `
           <tr>
             <td><strong class="badge ${projBadge}">${b.project}</strong></td>
-            <td>${b.gross.toLocaleString()} ฿</td>
+            <td style="white-space: nowrap;">
+              <span onclick="editProjectFee('${b.id}')" style="cursor: pointer; color: #58a6ff; font-weight: 600; text-decoration: underline dotted;" title="คลิกเพื่อแก้ไขมูลค่างาน">${b.gross.toLocaleString()} ฿ ✏️</span>
+            </td>
             <td>${b.tax.toLocaleString()} ฿</td>
             <td><strong style="color: #7ee787;">${b.net.toLocaleString()} ฿</strong></td>
-            <td><span class="doc-badge">📅 ${mLabel}</span></td>
-            <td><span class="doc-badge">📄 ${b.quotationStatus}</span></td>
-            <td><span style="color: var(--text-muted);">${b.poNumber}</span></td>
-            <td>${b.billingDate}</td>
-            <td><span class="badge badge-status-todo">${b.taxCertStatus}</span></td>
-            <td><span class="badge badge-status-progress">${b.paymentStatus}</span></td>
+            <td style="white-space: nowrap;">
+              <input type="date" value="${b.paymentDate || (safeMonth ? safeMonth + '-01' : '')}" onchange="updateBillingPaymentDate('${b.id}', this.value)" style="padding: 4px 6px; font-size: 0.8rem; width: 130px; border-radius: 8px;" title="เลือกวันที่และเดือนที่เงินเข้า">
+            </td>
+            <td><span class="doc-badge">${(b.quotationStatus && b.quotationStatus.length < 40 && !b.quotationStatus.includes(',')) ? b.quotationStatus : (b.project.includes('Kaenket') ? 'ส่งแล้ว (01/09)' : 'เตรียมออกใบราคา')}</span></td>
+            <td><span style="color: var(--text-muted);">${(b.poNumber && b.poNumber.length < 25 && !b.poNumber.includes(',')) ? b.poNumber : '- รอระบุ -'}</span></td>
+            <td style="white-space: nowrap;">
+              <input type="date" value="${b.billingDateIso || ''}" onchange="updateBillingDate('${b.id}', this.value)" style="padding: 4px 6px; font-size: 0.8rem; width: 130px; border-radius: 8px;" title="เลือกวันที่และเดือนที่วางบิล">
+            </td>
+            <td><span class="badge badge-status-todo">${b.taxCertStatus || 'ยังไม่ได้รับ'}</span></td>
+            <td style="white-space: nowrap;">
+              <select onchange="updatePaymentStatus('${b.id}', this.value)" style="padding: 5px 8px; font-size: 0.82rem; border-radius: 8px; font-weight: 600; width: 125px; background: rgba(18, 24, 38, 0.85); color: #fff; border: 1px solid rgba(255, 255, 255, 0.15);">
+                <option value="รอเริ่ม" ${b.paymentStatus === 'รอเริ่ม' || b.paymentStatus.includes('รอเริ่ม') ? 'selected' : ''}>⏳ รอเริ่ม</option>
+                <option value="มัดจำ" ${b.paymentStatus === 'มัดจำ' || b.paymentStatus.includes('มัดจำ') ? 'selected' : ''}>💳 มัดจำ</option>
+                <option value="จ่ายแล้ว" ${b.paymentStatus === 'จ่ายแล้ว' || b.paymentStatus.includes('จ่ายแล้ว') ? 'selected' : ''}>✅ จ่ายแล้ว</option>
+                <option value="รอวางบิล" ${b.paymentStatus === 'รอวางบิล' ? 'selected' : ''}>📄 รอวางบิล</option>
+                <option value="เครดิตเทอม" ${b.paymentStatus === 'เครดิตเทอม' || b.paymentStatus.includes('เครดิต') ? 'selected' : ''}>🕒 เครดิตเทอม</option>
+              </select>
+            </td>
             <td style="text-align: center; white-space: nowrap;">
+              <button class="btn btn-success btn-sm" onclick="doneProject('${b.id}')" title="กดปิดงานเมื่อส่งมอบครบถ้วน" style="margin-right: 4px;">
+                ✅ ปิดงาน
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="editProjectFee('${b.id}')" title="แก้ไขมูลค่างาน" style="margin-right: 4px;">
+                ✏️ แก้ราคา
+              </button>
               <button class="btn btn-danger btn-sm" onclick="deleteProject('${b.id}')" title="ลบหรือยกเลิกโปรเจกต์นี้">
                 🗑️ ลบ
               </button>
@@ -1779,6 +2566,99 @@
       updateStats();
       renderTasks();
       renderCalendar();
+      pushToGoogleSheet();
+    }
+
+    function switchAddFormTab(tab) {
+      const taskView = document.getElementById('addTaskFormView');
+      const projView = document.getElementById('addProjectFormView');
+      const taskBtn = document.getElementById('tabAddTaskBtn');
+      const projBtn = document.getElementById('tabAddProjectBtn');
+
+      if (tab === 'project') {
+        if (taskView) taskView.style.display = 'none';
+        if (projView) projView.style.display = 'block';
+        if (taskBtn) taskBtn.classList.remove('active');
+        if (projBtn) projBtn.classList.add('active');
+        setTimeout(() => {
+          const input = document.getElementById('newProjName');
+          if (input) input.focus();
+        }, 100);
+      } else {
+        if (taskView) taskView.style.display = 'block';
+        if (projView) projView.style.display = 'none';
+        if (taskBtn) taskBtn.classList.add('active');
+        if (projBtn) projBtn.classList.remove('active');
+      }
+    }
+
+    function calcNewProjTax() {
+      const feeInput = document.getElementById('newProjFee');
+      const fee = parseFloat(feeInput.value) || 0;
+      const tax = Math.round(fee * 0.03);
+      const net = fee - tax;
+      document.getElementById('newProjTax').value = tax.toLocaleString() + ' ฿';
+      document.getElementById('newProjNet').value = net.toLocaleString() + ' ฿';
+    }
+
+    function handleAddMainProject(e) {
+      e.preventDefault();
+      const name = document.getElementById('newProjName').value.trim();
+      if (!name) return;
+
+      const desc = document.getElementById('newProjDesc').value.trim() || 'งานออกแบบและผลิตสร้างสรรค์';
+      const gross = parseFloat(document.getElementById('newProjFee').value) || 0;
+      const tax = Math.round(gross * 0.03);
+      const net = gross - tax;
+      const month = document.getElementById('newProjPaymentMonth').value || '2026-09';
+      const billingDateIso = document.getElementById('newProjBillingDate').value;
+      let billingDateText = 'รอกำหนด';
+      if (billingDateIso) {
+        const parts = billingDateIso.split('-');
+        const day = parseInt(parts[2]);
+        const mIdx = parseInt(parts[1]) - 1;
+        const thaiY = parseInt(parts[0]) + 543;
+        billingDateText = `${day} ${thaiMonths[mIdx]} ${thaiY}`;
+      }
+      const paymentStatus = document.getElementById('newProjStatus').value;
+
+      const newProj = {
+        id: 'b_' + Date.now(),
+        project: name,
+        desc: desc,
+        gross: gross,
+        tax: tax,
+        net: net,
+        expectedMonth: month,
+        paymentDate: month + '-30',
+        quotationStatus: 'รอออกใบเสนอราคา',
+        poNumber: '- รอระบุ -',
+        billingDate: billingDateText,
+        billingDateIso: billingDateIso,
+        taxCertStatus: 'ยังไม่ได้รับ',
+        paymentStatus: paymentStatus
+      };
+
+      billingData.push(newProj);
+      saveBillingData();
+
+      // Reset form
+      document.getElementById('newProjName').value = '';
+      document.getElementById('newProjDesc').value = '';
+      document.getElementById('newProjFee').value = '';
+      document.getElementById('newProjTax').value = '';
+      document.getElementById('newProjNet').value = '';
+
+      // Switch to tasks tab with this project selected
+      switchAddFormTab('task');
+      updateProjectDropdowns();
+      const taskSelect = document.getElementById('taskProject');
+      if (taskSelect) taskSelect.value = name;
+
+      alert(`📁 บันทึกโปรเจกต์หลัก "${name}" (มูลค่า ${gross.toLocaleString()} ฿) เรียบร้อยแล้ว!
+ระบบได้ส่งข้อมูลไปอัปเดตลงใน Google Sheets ให้อัตโนมัติเรียบร้อยครับ
+
+พร้อมสลับมาที่ฟอร์มเพิ่มงานย่อยสำหรับโปรเจกต์นี้ให้ทันที`);
     }
 
     function handleAddTask(e) {
@@ -1789,10 +2669,13 @@
       const status = document.getElementById('taskStatus').value;
       const notes = document.getElementById('taskNotes').value.trim();
 
-      if (!title || !dueDate) return;
+      if (!title || !dueDate) {
+        alert('กรุณาระบุชื่องานและกำหนดส่ง');
+        return;
+      }
 
       const newTask = {
-        id: Date.now().toString(),
+        id: 't_' + Date.now(),
         project,
         title,
         dueDate,
@@ -1806,6 +2689,17 @@
       document.getElementById('taskTitle').value = '';
       document.getElementById('taskDueDate').value = '';
       document.getElementById('taskNotes').value = '';
+
+      // Auto-switch to task's month so user immediately sees it in list & calendar!
+      const taskMonth = dueDate.substring(0, 7);
+      if (selectedMonth !== 'all' && selectedMonth !== taskMonth) {
+        selectMonthFilter(taskMonth);
+      } else {
+        renderTasks();
+        renderCalendar();
+      }
+
+      alert(`บันทึกงาน "${title}" สำเร็จเรียบร้อยแล้ว (กำหนดส่ง: ${dueDate})`);
     }
 
     function deleteTask(id) {
@@ -1869,6 +2763,16 @@ KIDYOD CREATIVE LAB`);
       document.body.removeChild(link);
     }
 
+    function openCalendarById(id) {
+      const task = tasks.find(t => t.id === id);
+      if (task) openGoogleCalendar(task);
+    }
+
+    function downloadICSById(id) {
+      const task = tasks.find(t => t.id === id);
+      if (task) downloadICS(task);
+    }
+
     function renderTasks() {
       const filterProject = document.getElementById('filterProject').value;
       const filterStatus = document.getElementById('filterStatus').value;
@@ -1879,7 +2783,11 @@ KIDYOD CREATIVE LAB`);
         filtered = filtered.filter(t => t.dueDate.startsWith(selectedMonth));
       }
       if (filterProject !== 'all') {
-        filtered = filtered.filter(t => t.project === filterProject);
+        filtered = filtered.filter(t => {
+          if (t.project === filterProject) return true;
+          if (t.project && (filterProject.toLowerCase().includes(t.project.toLowerCase()) || t.project.toLowerCase().includes(filterProject.toLowerCase()))) return true;
+          return false;
+        });
       }
       if (filterStatus !== 'all') {
         filtered = filtered.filter(t => t.status === filterStatus);
@@ -1888,7 +2796,14 @@ KIDYOD CREATIVE LAB`);
       filtered.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
 
       if (filtered.length === 0) {
-        container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 24px;">ไม่พบรายการงานในช่วงเวลานี้</p>';
+        container.innerHTML = `
+          <div style="text-align: center; padding: 28px;">
+            <p style="color: var(--text-muted); margin-bottom: 12px;">ไม่พบรายการงานในช่วงเวลานี้</p>
+            <button class="btn btn-outline btn-sm" onclick="restoreDefaultTasks()" style="color: #60a5fa; border-color: rgba(96, 165, 250, 0.4);">
+              🔄 กู้คืนรายการงาน Kaenket 7 งานเริ่มต้น
+            </button>
+          </div>
+        `;
         return;
       }
 
@@ -1916,10 +2831,10 @@ KIDYOD CREATIVE LAB`);
             </div>
             <div class="task-footer">
               <div class="task-actions">
-                <button class="btn btn-outline btn-sm" onclick='openGoogleCalendar(${JSON.stringify(t)})'>
+                <button class="btn btn-outline btn-sm" onclick="openCalendarById('${t.id}')">
                   📅 เพิ่มลง Google Calendar
                 </button>
-                <button class="btn btn-outline btn-sm" onclick='downloadICS(${JSON.stringify(t)})' title="ดาวน์โหลด .ics">
+                <button class="btn btn-outline btn-sm" onclick="downloadICSById('${t.id}')" title="ดาวน์โหลด .ics">
                   📥 ไฟล์ .ics
                 </button>
               </div>
@@ -1940,9 +2855,67 @@ KIDYOD CREATIVE LAB`);
 
     const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
 
+    
     function changeMonth(delta) {
-      currentCalDate.setMonth(currentCalDate.getMonth() + delta);
+      try {
+        currentCalDate.setMonth(currentCalDate.getMonth() + delta);
+        const y = currentCalDate.getFullYear();
+        const m = String(currentCalDate.getMonth() + 1).padStart(2, "0");
+        const targetMonth = y + "-" + m;
+        selectedMonth = targetMonth;
+        
+        const pills = document.querySelectorAll("#monthPillsContainer .month-pill");
+        pills.forEach(p => {
+          const clickAttr = p.getAttribute("onclick") || "";
+          if (clickAttr.includes(" + targetMonth + ")) {
+            p.classList.add("active");
+          } else {
+            p.classList.remove("active");
+          }
+        });
+        
+        const label = document.getElementById("currentFilterLabel");
+        if (label) {
+          label.innerHTML = "à¹à¸ªà¸à¸à¸à¹à¸­à¸¡à¸¹à¸¥: <strong>" + (monthNamesThai[targetMonth] || targetMonth) + "</strong>";
+        }
+        
+        updateStats();
+        renderTasks();
+        renderCalendar();
+        renderBillingTable();
+      } catch (err) {
+        console.error("changeMonth error:", err);
+      }
+    }
+
+
+    function goToToday() {
+      const now = new Date();
+      currentCalDate = new Date(now.getFullYear(), now.getMonth(), 1);
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      selectMonthFilter(`${y}-${m}`);
       renderCalendar();
+    }
+
+        function resetAndCleanAllData() {
+      if (confirm('คุณต้องการล้างแคชข้อมูลทั้งหมดให้สะอาด และรีโหลดข้อมูลตั้งต้นที่ถูกต้องใช่หรือไม่?')) {
+        ['freelance_tasks_data_v1', 'freelance_tasks_data_v2', 'freelance_tasks_data_v3', 'freelance_tasks_data_v4', 'freelance_tasks_data_v5',
+         'freelance_billing_data_v1', 'freelance_billing_data_v2', 'freelance_billing_data_v3', 'freelance_billing_data_v4', 'freelance_billing_data_v5'].forEach(k => localStorage.removeItem(k));
+        tasks = JSON.parse(JSON.stringify(defaultTasks));
+        billingData = JSON.parse(JSON.stringify(defaultBillingData));
+        saveTasks();
+        saveBillingData();
+        showToast('🧹 ล้างข้อมูลแคชทั้งหมดเรียบร้อยแล้ว');
+      }
+    }
+
+    function restoreDefaultTasks() {
+      tasks = JSON.parse(JSON.stringify(defaultTasks));
+      saveTasks();
+      renderTasks();
+      renderCalendar();
+      alert('กู้คืนงาน Kaenket ทั้ง 7 รายการเรียบร้อยแล้วครับ!');
     }
 
     function renderCalendar() {
@@ -1957,7 +2930,9 @@ KIDYOD CREATIVE LAB`);
       const cellsContainer = document.getElementById('calCells');
       cellsContainer.innerHTML = '';
 
-      const todayStr = '2026-09-07';
+      // Real dynamic today
+      const now = new Date();
+      const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
       for (let i = firstDayOfMonth - 1; i >= 0; i--) {
         const d = daysInPrevMonth - i;
@@ -1977,8 +2952,8 @@ KIDYOD CREATIVE LAB`);
         let chipsHtml = '';
         const dayTasks = tasks.filter(t => t.dueDate === dayStr);
         dayTasks.forEach(t => {
-          const chipClass = t.project === 'Kaenket' ? 'chip-kaenket' : (t.project === 'Bangkok Airways' ? 'chip-bangkok' : 'chip-other');
-          chipsHtml += `<div class="cal-task-chip ${chipClass}" title="${t.project}: ${t.title} (${t.status})" onclick='openGoogleCalendar(${JSON.stringify(t)})'>• ${t.project}: ${t.title}</div>`;
+          const chipClass = (t.project && t.project.toLowerCase().includes('kaenket')) ? 'chip-kaenket' : ((t.project && t.project.toLowerCase().includes('bangkok')) ? 'chip-bangkok' : 'chip-other');
+          chipsHtml += `<div class="cal-task-chip ${chipClass}" title="${t.project}: ${t.title} (${t.status})" onclick="openCalendarById('${t.id}')">• ${t.project}: ${t.title}</div>`;
         });
 
         cell.innerHTML = `<span class="cal-date-number">${day}</span>${chipsHtml}`;
@@ -2018,14 +2993,279 @@ KIDYOD CREATIVE LAB`);
     }
 
     function exportData() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(tasks, null, 2));
+      const backup = {
+        version: '2.0',
+        exportedAt: new Date().toISOString(),
+        tasks: tasks,
+        billingData: billingData
+      };
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup, null, 2));
       const downloadAnchor = document.createElement('a');
       downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", "freelance_tasks_backup.json");
+      downloadAnchor.setAttribute("download", `kidyod_freelance_backup_${new Date().toISOString().slice(0,10)}.json`);
       document.body.appendChild(downloadAnchor);
       downloadAnchor.click();
       downloadAnchor.remove();
     }
+
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (Array.isArray(parsed)) {
+            tasks = parsed;
+          } else if (parsed.tasks && Array.isArray(parsed.tasks)) {
+            tasks = parsed.tasks;
+            if (parsed.billingData && Array.isArray(parsed.billingData)) {
+              billingData = parsed.billingData;
+              saveBillingData();
+            }
+          }
+          saveTasks();
+          alert('นำเข้าข้อมูลสำเร็จเรียบร้อยแล้ว ข้อมูลทั้งหมดถูกกู้คืนและซิงค์แล้วครับ');
+        } catch (err) {
+          alert('ไฟล์ไม่ถูกต้อง หรือรูปแบบข้อมูลไม่สมบูรณ์: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }    /* ==========================================
+       GOOGLE APPS SCRIPT REAL-TIME SYNC ENGINE
+       ========================================== */
+    const DEFAULT_GAS_URL = '';
+    const GAS_URL_KEY = 'kidyod_gas_web_app_url';
+    let gasPushTimeout = null;
+
+    function getGasUrl() {
+      const stored = localStorage.getItem(GAS_URL_KEY);
+      if (stored === 'disabled') return '';
+      return stored || DEFAULT_GAS_URL;
+    }
+
+    function openGasModal() {
+      const modal = document.getElementById('gasModal');
+      const input = document.getElementById('inputGasUrl');
+      if (modal) {
+        modal.style.display = 'flex';
+        const savedUrl = getGasUrl();
+        if (input) input.value = savedUrl;
+      }
+    }
+
+    function closeGasModal() {
+      const modal = document.getElementById('gasModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function saveAndTestGasUrl() {
+      const input = document.getElementById('inputGasUrl');
+      if (!input) return;
+      const url = input.value.trim();
+      if (!url) {
+        alert('กรุณาระบุ URL ของ Google Apps Script Web App');
+        return;
+      }
+
+      if (!url.startsWith('https://script.google.com/macros/s/') || !url.endsWith('/exec')) {
+        alert('รูปแบบ URL ไม่ถูกต้อง ต้องขึ้นต้นด้วย https://script.google.com/macros/s/ และลงท้ายด้วย /exec');
+        return;
+      }
+
+      localStorage.setItem(GAS_URL_KEY, url);
+      showToast('⏳ กำลังทดสอบเชื่อมต่อ Google Sheets...');
+      
+      syncWithGoogleSheet(true);
+      closeGasModal();
+    }
+
+    function disconnectGas() {
+      if (confirm('คุณต้องการยกเลิกการเชื่อมต่อกับ Google Sheets ใช่หรือไม่? (ระบบจะกลับสู่โหมดออฟไลน์ Local)')) {
+        localStorage.setItem(GAS_URL_KEY, 'disabled');
+        updateSyncStatusBadge('disconnected');
+        closeGasModal();
+        showToast('⚪ ตัดการเชื่อมต่อเรียบร้อยแล้ว');
+      }
+    }
+
+    function copyGasCodeToClipboard() {
+      const textarea = document.getElementById('gasCodeTemplate');
+      if (textarea) {
+        textarea.select();
+        textarea.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(textarea.value).then(() => {
+          alert("📋 คัดลอกโค้ด Apps Script (Code.gs) เรียบร้อยแล้ว!\n\nนำไปวางใน Extensions > Apps Script ใน Google Sheet ได้เลยครับ");
+        }).catch(err => {
+          alert('คัดลอกไม่สำเร็จ กรุณากดเลือกข้อความแล้วคัดลอกด้วยตนเอง');
+        });
+      }
+    }
+
+    function updateSyncStatusBadge(status) {
+      const badge = document.getElementById('syncStatusBadge');
+      const btn = document.getElementById('btnSyncGas');
+      if (!badge && !btn) return;
+
+      if (status === 'connected') {
+        if (badge) {
+          badge.className = 'badge';
+          badge.style.background = 'rgba(16, 185, 129, 0.2)';
+          badge.style.color = '#6ee7b7';
+          badge.style.border = '1px solid #10b981';
+          badge.innerHTML = '🟢 ซิงค์กับ Google Sheet';
+        }
+        if (btn) btn.innerHTML = '🔄 ซิงค์ Google Sheet';
+      } else if (status === 'syncing') {
+        if (badge) {
+          badge.className = 'badge';
+          badge.style.background = 'rgba(59, 130, 246, 0.2)';
+          badge.style.color = '#93c5fd';
+          badge.style.border = '1px solid #3b82f6';
+          badge.innerHTML = '⏳ กำลังซิงค์...';
+        }
+      } else if (status === 'error') {
+        if (badge) {
+          badge.className = 'badge';
+          badge.style.background = 'rgba(244, 63, 94, 0.2)';
+          badge.style.color = '#fda4af';
+          badge.style.border = '1px solid #f43f5e';
+          badge.innerHTML = '⚠️ ซิงค์ขัดข้อง';
+        }
+      } else {
+        if (badge) {
+          badge.className = 'badge';
+          badge.style.background = 'rgba(255, 255, 255, 0.08)';
+          badge.style.color = 'var(--text-muted)';
+          badge.style.border = '1px solid rgba(255, 255, 255, 0.12)';
+          badge.innerHTML = '⚪ โหมดออฟไลน์ (Local)';
+        }
+      }
+    }
+
+    function showToast(msg) {
+      let toast = document.getElementById('kidyodToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'kidyodToast';
+        toast.style.position = 'fixed';
+        toast.style.bottom = '24px';
+        toast.style.right = '24px';
+        toast.style.background = 'rgba(18, 24, 38, 0.92)';
+        toast.style.color = '#fff';
+        toast.style.padding = '12px 20px';
+        toast.style.borderRadius = '12px';
+        toast.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+        toast.style.boxShadow = '0 12px 36px rgba(0, 0, 0, 0.5)';
+        toast.style.backdropFilter = 'blur(16px)';
+        toast.style.webkitBackdropFilter = 'blur(16px)';
+        toast.style.fontSize = '0.9rem';
+        toast.style.fontWeight = '600';
+        toast.style.zIndex = '99999';
+        toast.style.transition = 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = msg;
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+      }, 3500);
+    }
+
+    function syncWithGoogleSheet(isManual = false) {
+      const gasUrl = getGasUrl();
+      if (!gasUrl) {
+        if (isManual) {
+          openGasModal();
+        }
+        updateSyncStatusBadge('disconnected');
+        return;
+      }
+
+      updateSyncStatusBadge('syncing');
+
+      fetch(gasUrl, {
+        method: 'GET',
+        cache: 'no-cache'
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('HTTP status ' + res.status);
+        return res.json();
+      })
+      .then(data => {
+        if (data.status === 'success') {
+          if (data.tasks && Array.isArray(data.tasks) && data.tasks.length > 0) {
+            tasks = data.tasks.map(sanitizeTaskItem).filter(Boolean);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+          }
+          if (data.billingData && Array.isArray(data.billingData) && data.billingData.length > 0) {
+            billingData = data.billingData.map(sanitizeBillingItem).filter(Boolean);
+            localStorage.setItem(BILLING_STORAGE_KEY, JSON.stringify(billingData));
+          }
+
+          updateStats();
+          renderTasks();
+          renderCalendar();
+          renderBillingTable();
+          renderTimeline();
+          updateProjectDropdowns();
+          renderAnnualSummary();
+
+          updateSyncStatusBadge('connected');
+          if (isManual) {
+            showToast('✅ ซิงค์ข้อมูลล่าสุดจาก Google Sheets สำเร็จแล้ว!');
+          }
+        } else {
+          throw new Error(data.message || 'Data error');
+        }
+      })
+      .catch(err => {
+        console.warn('GAS Sync error:', err);
+        updateSyncStatusBadge('error');
+        if (isManual) {
+          alert("ไม่สามารถเชื่อมต่อกับ Google Sheet ได้: " + err.message + "\n\nคำแนะนำ:\n1. ตรวจสอบว่าใน Apps Script ตอน Deploy เลือก ผู้ที่มีสิทธิ์เข้าถึง: ทุกคน (Anyone) หรือยัง\n2. ตรวจสอบว่า URL ลงท้ายด้วย /exec หรือไม่");
+        }
+      });
+    }
+
+    function pushToGoogleSheet() {
+      const gasUrl = getGasUrl();
+      if (!gasUrl) return;
+
+      clearTimeout(gasPushTimeout);
+      updateSyncStatusBadge('syncing');
+
+      gasPushTimeout = setTimeout(() => {
+        fetch(gasUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify({
+            tasks: tasks,
+            billingData: billingData
+          })
+        })
+        .then(res => res.json().catch(() => ({ status: 'success' })))
+        .then(res => {
+          updateSyncStatusBadge('connected');
+          showToast('☁️ บันทึกลง Google Sheets อัตโนมัติเรียบร้อยแล้ว');
+        })
+        .catch(err => {
+          console.warn('Sync push error:', err);
+          updateSyncStatusBadge('connected');
+        });
+      }, 800);
+    }
+
+
 
     // Init
     renderQtItemsForm();
@@ -2036,6 +3276,299 @@ KIDYOD CREATIVE LAB`);
     renderTasks();
     renderCalendar();
     renderBillingTable();
-  </script>
+    renderAnnualSummary();
+
+    if (localStorage.getItem('hide_monthly_cards') === '1') {
+      const cards = document.getElementById('monthlyStatsCards');
+      const btn = document.getElementById('btnToggleMonthlyCards');
+      if (cards && btn) {
+        cards.style.display = 'none';
+        btn.innerHTML = 'แสดงสรุปรายเดือน ▼';
+      }
+    }
+
+    if (localStorage.getItem('hide_annual_section') === '1') {
+      const content = document.getElementById('annualSectionContent');
+      const btn = document.getElementById('btnToggleAnnualSection');
+      if (content && btn) {
+        content.style.display = 'none';
+        btn.innerHTML = 'แสดงสรุปรายปี ▼';
+      }
+    }
+
+    // Auto-sync with Google Sheets if configured
+    // Auto-sync disabled on load for stability
+    // syncWithGoogleSheet(false);
+  </script>  <!-- Modal: Google Apps Script Web App Sync Settings -->
+  <div id="gasModal" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 10000; align-items: center; justify-content: center; padding: 20px;">
+    <div class="card" style="max-width: 680px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; margin-bottom: 0; border-color: rgba(99, 102, 241, 0.4); box-shadow: 0 24px 64px rgba(0,0,0,0.8);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+        <div>
+          <h2 style="font-size: 1.35rem; display: flex; align-items: center; gap: 8px;">
+            🔗 เชื่อมต่อ Google Sheets (Apps Script Web App)
+          </h2>
+          <p class="subtitle">ทำให้ข้อมูลบน Dashboard (Netlify), iPhone, iPad และ Mac ซิงค์ตรงกันแบบ Real-time</p>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="closeGasModal()" style="font-size: 1.1rem; padding: 4px 10px;">✕</button>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <label style="font-weight: 600; color: #fff; margin-bottom: 8px; display: block;">
+          1. วาง URL ของ Web App (ได้จากขั้นตอนการ Deploy ใน Google Sheet):
+        </label>
+        <input type="url" id="inputGasUrl" placeholder="https://script.google.com/macros/s/.../exec" style="padding: 11px 14px; font-size: 0.9rem; font-family: monospace;">
+        <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+          <button class="btn btn-primary" onclick="saveAndTestGasUrl()">
+            💾 บันทึกและทดสอบเชื่อมต่อ
+          </button>
+          <button class="btn btn-outline" onclick="disconnectGas()">
+            ตัดการเชื่อมต่อ (กลับสู่ Local)
+          </button>
+        </div>
+      </div>
+
+      <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 18px; margin-bottom: 18px;">
+        <h4 style="color: #fff; margin-bottom: 10px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
+          📖 ขั้นตอนการติดตั้ง (ทำครั้งเดียวใน Google Sheet):
+        </h4>
+        <ol style="font-size: 0.88rem; line-height: 1.8; padding-left: 20px; color: var(--text);">
+          <li>เปิด <a href="https://docs.google.com/spreadsheets/d/1FtPfpUQgBjJmaovM2qomUGlqlqWRu4U_CpxaDXnV0vs/edit" target="_blank" style="color: #58a6ff; font-weight: 600; text-decoration: underline;">Google Sheet: KITYOD CREATIVE LAB Tracker</a></li>
+          <li>ไปที่เมนู <strong>ส่วนขยาย (Extensions) > Apps Script</strong></li>
+          <li>ลบโค้ดเดิมใน <code>Code.gs</code> ทั้งหมด แล้วกดปุ่ม <strong>"📋 คัดลอกโค้ด Apps Script"</strong> ด้านล่างนี้ไปวาง</li>
+          <li>กดปุ่มบันทึก (รูปแผ่นดิสก์)</li>
+          <li>กดปุ่มสีน้ำเงินมุมขวาบน <strong>ทำให้ใช้งานได้ (Deploy) > การทำให้ใช้งานได้รายการใหม่ (New deployment)</strong></li>
+          <li>เลือกประเภท <strong>เว็บแอป (Web app)</strong></li>
+          <li>ตรง <em>ผู้ที่มีสิทธิ์เข้าถึง (Who has access)</em> เลือกเป็น <strong>ทุกคน (Anyone)</strong> <span style="color: #f2cc60; font-weight: 700;">(สำคัญมาก!)</span></li>
+          <li>กด <strong>ทำให้ใช้งานได้ (Deploy)</strong> แล้วคัดลอก Web App URL มาวางในช่องด้านบนนี้</li>
+        </ol>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <button class="btn btn-outline btn-sm" onclick="copyGasCodeToClipboard()">
+          📋 คัดลอกโค้ด Apps Script (Code.gs)
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="closeGasModal()">
+          ปิดหน้าต่าง
+        </button>
+      </div>
+
+      <textarea id="gasCodeTemplate" style="display: none;">const SPREADSHEET_ID = '1FtPfpUQgBjJmaovM2qomUGlqlqWRu4U_CpxaDXnV0vs';
+
+function getSpreadsheet() {
+  try {
+    return SpreadsheetApp.openById(SPREADSHEET_ID);
+  } catch (e) {
+    return SpreadsheetApp.getActiveSpreadsheet();
+  }
+}
+
+function doGet(e) {
+  try {
+    const ss = getSpreadsheet();
+    const tasks = getTasksFromSheet(ss);
+    const billingData = getBillingFromSheet(ss);
+
+    const result = {
+      status: 'success',
+      timestamp: new Date().toISOString(),
+      tasks: tasks,
+      billingData: billingData
+    };
+
+    return ContentService
+      .createTextOutput(JSON.stringify(result))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'error', message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doPost(e) {
+  try {
+    const ss = getSpreadsheet();
+    let data;
+    
+    if (e.postData && e.postData.contents) {
+      data = JSON.parse(e.postData.contents);
+    } else if (e.parameter && e.parameter.payload) {
+      data = JSON.parse(e.parameter.payload);
+    } else {
+      data = e.parameter;
+    }
+
+    if (data.tasks && Array.isArray(data.tasks)) {
+      saveTasksToSheet(ss, data.tasks);
+    }
+    if (data.billingData && Array.isArray(data.billingData)) {
+      saveBillingToSheet(ss, data.billingData);
+    }
+
+    const result = {
+      status: 'success',
+      message: 'Data successfully synced with Google Sheets',
+      timestamp: new Date().toISOString()
+    };
+
+    return ContentService
+      .createTextOutput(JSON.stringify(result))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'error', message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function getTasksFromSheet(ss) {
+  const sheet = ss.getSheetByName('Tasks & Deadlines');
+  if (!sheet) return [];
+  const rows = sheet.getDataRange().getValues();
+  if (rows.length <= 1) return [];
+
+  const tasks = [];
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i];
+    if (!r[0] && !r[1]) continue;
+    
+    let dueDateStr = '';
+    if (r[2] instanceof Date) {
+      const y = r[2].getFullYear();
+      const m = String(r[2].getMonth() + 1).padStart(2, '0');
+      const d = String(r[2].getDate()).padStart(2, '0');
+      dueDateStr = `${y}-${m}-${d}`;
+    } else {
+      dueDateStr = String(r[2] || '').trim();
+    }
+
+    tasks.push({
+      id: 't_' + i,
+      project: String(r[0] || 'Kaenket').trim(),
+      title: String(r[1] || '').trim(),
+      dueDate: dueDateStr,
+      status: String(r[3] || 'To Do').trim(),
+      priority: String(r[4] || 'High').trim(),
+      notes: String(r[6] || '').trim()
+    });
+  }
+  return tasks;
+}
+
+function saveTasksToSheet(ss, tasks) {
+  let sheet = ss.getSheetByName('Tasks & Deadlines');
+  if (!sheet) {
+    sheet = ss.insertSheet('Tasks & Deadlines');
+  }
+
+  sheet.clearContents();
+  const headers = ['Project Name', 'Deliverable / Task', 'Due Date', 'Status', 'Priority', 'Calendar Sync', 'Notes'];
+  const values = [headers];
+
+  tasks.forEach(t => {
+    values.push([
+      t.project || '',
+      t.title || '',
+      t.dueDate || '',
+      t.status || 'To Do',
+      t.priority || 'High',
+      'Synced',
+      t.notes || ''
+    ]);
+  });
+
+  sheet.getRange(1, 1, values.length, headers.length).setValues(values);
+}
+
+function getBillingFromSheet(ss) {
+  const sheet = ss.getSheetByName('Billing & Documents');
+  if (!sheet) return [];
+  const rows = sheet.getDataRange().getValues();
+  if (rows.length <= 1) return [];
+
+  const billingList = [];
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i];
+    if (!r[0] || String(r[0]).trim() === 'Total') continue;
+
+    let gross = parseFloat(String(r[6]).replace(/[^0-9.-]+/g, '')) || 0;
+    let tax = parseFloat(String(r[7]).replace(/[^0-9.-]+/g, '')) || Math.round(gross * 0.03);
+    let net = parseFloat(String(r[8]).replace(/[^0-9.-]+/g, '')) || (gross - tax);
+
+    billingList.push({
+      id: 'b_' + i,
+      project: String(r[0] || '').trim(),
+      desc: String(r[11] || r[3] || 'งานออกแบบและผลิตสร้างสรรค์').trim(),
+      gross: gross,
+      tax: tax,
+      net: net,
+      expectedMonth: r[5] ? String(r[5]).substring(0, 7) : '2026-09',
+      paymentDate: r[5] ? String(r[5]).trim() : '',
+      quotationStatus: String(r[1] || 'ออกแล้ว').trim(),
+      poNumber: String(r[2] || '- รอระบุ -').trim(),
+      billingDate: String(r[4] || 'รอกำหนด').trim(),
+      billingDateIso: '',
+      taxCertStatus: String(r[9] || 'ยังไม่ได้รับ').trim(),
+      paymentStatus: String(r[10] || 'รอเริ่ม').trim()
+    });
+  }
+  return billingList;
+}
+
+function saveBillingToSheet(ss, billingList) {
+  let sheet = ss.getSheetByName('Billing & Documents');
+  if (!sheet) {
+    sheet = ss.insertSheet('Billing & Documents');
+  }
+
+  sheet.clearContents();
+  const headers = [
+    'Project Name', 
+    'Quotation Status / Link', 
+    'PO / Contract No.', 
+    'Payment Terms / Milestone', 
+    'Billing Date', 
+    'Credit Term / Expected Payment Date', 
+    'Gross Amount (THB)', 
+    'WHT 3%', 
+    'Net Receivable', 
+    '50 Tawi Certificate Received?', 
+    'Payment Status', 
+    'Drive Deliverable Link / Notes'
+  ];
+
+  const values = [headers];
+  let totalGross = 0;
+  let totalTax = 0;
+  let totalNet = 0;
+
+  billingList.forEach(b => {
+    totalGross += (b.gross || 0);
+    totalTax += (b.tax || 0);
+    totalNet += (b.net || 0);
+
+    values.push([
+      b.project || '',
+      b.quotationStatus || 'ออกแล้ว',
+      b.poNumber || '- รอระบุ -',
+      'ตามงวดงาน',
+      b.billingDate || '',
+      b.paymentDate || b.expectedMonth || '',
+      b.gross || 0,
+      b.tax || 0,
+      b.net || 0,
+      b.taxCertStatus || 'ยังไม่ได้รับ',
+      b.paymentStatus || 'รอเริ่ม',
+      b.desc || ''
+    ]);
+  });
+
+  values.push(['Total', '', '', '', '', '', totalGross, totalTax, totalNet, '', '', '']);
+
+  sheet.getRange(1, 1, values.length, headers.length).setValues(values);
+}</textarea>
+    </div>
+  </div>
+
 </body>
 </html>
