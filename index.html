@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>whY CREATIVE LAB • ระบบจัดการงาน & ออกใบเสนอราคา</title>
+  <title>whY Creativelab • ระบบจัดการงาน & ออกใบเสนอราคา</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -972,7 +972,7 @@
   <div class="container">
     <header>
       <div>
-        <h1 class="brand-title">whY CREATIVE LAB</h1>
+        <h1 class="brand-title">whY Creativelab</h1>
         <p class="subtitle">ระบบจัดการงานฟรีแลนซ์ • สร้างใบเสนอราคาสำเร็จรูป • ติดตามรายได้ & Google Calendar <span class="badge" style="background: rgba(35, 134, 54, 0.25); color: #6ee7b7; border: 1px solid #10b981; font-size: 0.74rem; margin-left: 6px; font-weight: 700;">v2.6 (Liquid Glass â¢ High Stability â¢ All Menus Active)</span></p>
       </div>
       <div class="header-actions">
@@ -1006,7 +1006,7 @@
       <div class="section-title">
         <div>
           <h2>📄 ระบบออกใบเสนอราคาสำเร็จรูป (Quotation Generator)</h2>
-          <p class="subtitle">หัวบิล: <strong>whY CREATIVE LAB</strong> • กรอกข้อมูลหรือกดปุ่มลัดเพื่อออกเอกสารพร้อมพิมพ์/เซฟ PDF ได้ทันที</p>
+          <p class="subtitle">หัวบิล: <strong>whY Creativelab</strong> • กรอกข้อมูลหรือกดปุ่มลัดเพื่อออกเอกสารพร้อมพิมพ์/เซฟ PDF ได้ทันที</p>
         </div>
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
           <button class="btn btn-primary btn-sm" onclick="syncQuotationToBilling()" title="ซิงค์ราคาและข้อมูลใบเสนอราคานี้เข้าตารางวางบิลอัตโนมัติ">
@@ -1116,7 +1116,7 @@
             <!-- A4 Header -->
             <div class="a4-header">
               <div>
-                <div class="a4-brand">whY CREATIVE LAB</div>
+                <div class="a4-brand">whY Creativelab</div>
                 <div class="a4-brand-sub">
                   <strong>เอกนรินทร์ สุขสา</strong> (Creative Direction & AI Visual Production)<br>
                   เลขที่ 1/443 หมู่ 5 ซ.วิภาวดีรังสิต 25 (ซอยกลาง) แขวงทุ่งสองห้อง เขตหลักสี่ กรุงเทพมหานคร 10210<br>
@@ -1209,7 +1209,7 @@
             <!-- Signatures -->
             <div class="a4-signatures">
               <div class="a4-sig-box">
-                <div style="font-size: 11px; color: #666;">ในนาม <strong>whY CREATIVE LAB</strong></div>
+                <div style="font-size: 11px; color: #666;">ในนาม <strong>whY Creativelab</strong></div>
                 <div class="a4-sig-line"></div>
                 <div style="font-weight: 600;">( เอกนรินทร์ สุขสา )</div>
                 <div style="font-size: 11px; color: #777;">ผู้เสนอราคา / Creative Director</div>
@@ -1601,7 +1601,9 @@
 
     function toggleQuotationGenerator() {
       const section = document.getElementById('quotationSection');
-      if (section.style.display === 'none') {
+      if (!section) return;
+      const isHidden = section.style.display === 'none' || window.getComputedStyle(section).display === 'none';
+      if (isHidden) {
         section.style.display = 'block';
         section.scrollIntoView({ behavior: 'smooth' });
       } else {
@@ -2280,10 +2282,6 @@
       return data.map(sanitizeTaskItem).filter(Boolean);
     }
 
-      }
-      return defaultTasks;
-    }
-
     let tasks = loadTasks();
     let selectedMonth = '2026-09';
     let currentCalDate = new Date(2026, 8, 1);
@@ -2582,7 +2580,10 @@
         if (projBtn) projBtn.classList.add('active');
         setTimeout(() => {
           const input = document.getElementById('newProjName');
-          if (input) input.focus();
+          if (input) {
+            input.focus();
+            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
         }, 100);
       } else {
         if (taskView) taskView.style.display = 'block';
@@ -2729,7 +2730,7 @@
 สถานะ: ${task.status}
 รายละเอียด: ${task.notes || '-'}
 
-whY CREATIVE LAB`);
+whY Creativelab`);
       const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${datesParam}&details=${details}`;
       window.open(url, '_blank');
     }
@@ -2743,7 +2744,7 @@ whY CREATIVE LAB`);
       const icsData = [
         'BEGIN:VCALENDAR',
         'VERSION:2.0',
-        'PRODID:-//whY CREATIVE LAB//TH',
+        'PRODID:-//whY Creativelab//TH',
         'BEGIN:VEVENT',
         `SUMMARY:[Freelance] ${task.project}: ${task.title}`,
         `DESCRIPTION:${task.notes || task.title}`,
@@ -3332,7 +3333,7 @@ whY CREATIVE LAB`);
           📖 ขั้นตอนการติดตั้ง (ทำครั้งเดียวใน Google Sheet):
         </h4>
         <ol style="font-size: 0.88rem; line-height: 1.8; padding-left: 20px; color: var(--text);">
-          <li>เปิด <a href="https://docs.google.com/spreadsheets/d/1FtPfpUQgBjJmaovM2qomUGlqlqWRu4U_CpxaDXnV0vs/edit" target="_blank" style="color: #58a6ff; font-weight: 600; text-decoration: underline;">Google Sheet: whY CREATIVE LAB Tracker</a></li>
+          <li>เปิด <a href="https://docs.google.com/spreadsheets/d/1FtPfpUQgBjJmaovM2qomUGlqlqWRu4U_CpxaDXnV0vs/edit" target="_blank" style="color: #58a6ff; font-weight: 600; text-decoration: underline;">Google Sheet: whY Creativelab Tracker</a></li>
           <li>ไปที่เมนู <strong>ส่วนขยาย (Extensions) > Apps Script</strong></li>
           <li>ลบโค้ดเดิมใน <code>Code.gs</code> ทั้งหมด แล้วกดปุ่ม <strong>"📋 คัดลอกโค้ด Apps Script"</strong> ด้านล่างนี้ไปวาง</li>
           <li>กดปุ่มบันทึก (รูปแผ่นดิสก์)</li>
