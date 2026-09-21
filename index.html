@@ -747,6 +747,32 @@
       align-items: center;
     }
 
+    .btn-doc-type {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      font-size: 0.86rem;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      justify-content: center;
+      font-weight: 500;
+    }
+    .btn-doc-type:hover {
+      background: rgba(255, 255, 255, 0.09);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .btn-doc-type.active {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.35), rgba(139, 92, 246, 0.35));
+      border-color: #6366f1;
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+    }
+
     .qt-items-table {
       width: 100%;
       border-collapse: collapse;
@@ -980,7 +1006,7 @@
           ⚙️ เชื่อมต่อ Sheet
         </button>
         <button class="btn btn-purple" onclick="toggleQuotationGenerator()">
-          📄 สร้างใบเสนอราคาสำเร็จรูป
+          📄 สร้างใบเสนอราคา / วางบิล / ใบเสร็จ
         </button>
         <button class="btn btn-primary" onclick="switchAddFormTab('project'); document.getElementById('newProjName').focus();" title="เพิ่มโปรเจกต์งานหลักใหม่">
           + 📁 เพิ่มโปรเจกต์หลัก
@@ -1005,8 +1031,8 @@
     <div id="quotationSection" class="card" style="display: none; border-color: rgba(137, 87, 229, 0.4); background: linear-gradient(180deg, #1c2128, #161b22);">
       <div class="section-title">
         <div>
-          <h2>📄 ระบบออกใบเสนอราคาสำเร็จรูป (Quotation Generator)</h2>
-          <p class="subtitle">หัวบิล: <strong>whY Creativelab</strong> • กรอกข้อมูลหรือกดปุ่มลัดเพื่อออกเอกสารพร้อมพิมพ์/เซฟ PDF ได้ทันที</p>
+          <h2>📄 ระบบออกเอกสารการเงินสำเร็จรูป (Quotation • Billing Note • Invoice • Receipt)</h2>
+          <p class="subtitle">หัวบิล: <strong>whY Creativelab</strong> • เลือกออกใบเสนอราคา, ใบวางบิล, ใบแจ้งหนี้, ใบเสร็จรับเงิน พร้อมแนบสลิป/ใบเสร็จ และพิมพ์/เซฟ PDF ได้ทันที</p>
         </div>
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
           <button class="btn btn-primary btn-sm" onclick="syncQuotationToBilling()" title="ซิงค์ราคาและข้อมูลใบเสนอราคานี้เข้าตารางวางบิลอัตโนมัติ">
@@ -1037,9 +1063,33 @@
             </button>
           </div>
 
+          <!-- Document Type Selector -->
+          <div class="form-group" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12); padding: 12px 14px; border-radius: 12px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <label style="font-weight: 700; color: #fff; margin: 0; font-size: 0.92rem;">
+                📄 เลือกประเภทเอกสาร (Document Type):
+              </label>
+              <span id="docTypeBadge" class="badge" style="background: rgba(99, 102, 241, 0.25); color: #c7d2fe; border: 1px solid #6366f1; font-weight: 700;">QUOTATION</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
+              <button type="button" id="btnDocQuotation" class="btn btn-doc-type active" onclick="setDocumentType('quotation')">
+                📑 ใบเสนอราคา
+              </button>
+              <button type="button" id="btnDocBilling" class="btn btn-doc-type" onclick="setDocumentType('billingNote')">
+                📋 ใบวางบิล (Billing Note)
+              </button>
+              <button type="button" id="btnDocInvoice" class="btn btn-doc-type" onclick="setDocumentType('invoice')">
+                🧾 ใบแจ้งหนี้ (Invoice)
+              </button>
+              <button type="button" id="btnDocReceipt" class="btn btn-doc-type" onclick="setDocumentType('receipt')">
+                💵 ใบเสร็จรับเงิน (Receipt)
+              </button>
+            </div>
+          </div>
+
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div class="form-group">
-              <label>เลขที่ใบเสนอราคา (Quotation No.)</label>
+              <label id="lblDocNumber">เลขที่ใบเสนอราคา (Quotation No.)</label>
               <input type="text" id="qtNumber" value="QT-20260901-01" oninput="renderA4()">
             </div>
             <div class="form-group">
@@ -1050,13 +1100,17 @@
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div class="form-group">
-              <label>กำหนดยืนราคา (Valid Until)</label>
+              <label id="lblDocDate2">กำหนดยืนราคา (Valid Until)</label>
               <select id="qtValidity" onchange="renderA4()">
                 <option value="30 วัน (นับจากวันที่ออกเอกสาร)" selected>30 วัน (นับจากวันที่ออกเอกสาร)</option>
                 <option value="60 วัน (นับจากวันที่ออกเอกสาร)">60 วัน (นับจากวันที่ออกเอกสาร)</option>
                 <option value="15 วัน (นับจากวันที่ออกเอกสาร)">15 วัน (นับจากวันที่ออกเอกสาร)</option>
                 <option value="45 วัน (นับจากวันที่ออกเอกสาร)">45 วัน (นับจากวันที่ออกเอกสาร)</option>
                 <option value="90 วัน (นับจากวันที่ออกเอกสาร)">90 วัน (นับจากวันที่ออกเอกสาร)</option>
+                <option value="ภายใน 7 วัน นับจากวันวางบิล">ภายใน 7 วัน นับจากวันวางบิล</option>
+                <option value="ภายใน 15 วัน นับจากวันวางบิล">ภายใน 15 วัน นับจากวันวางบิล</option>
+                <option value="ภายใน 30 วัน นับจากวันวางบิล">ภายใน 30 วัน นับจากวันวางบิล</option>
+                <option value="ชำระเงินเรียบร้อยแล้ว">ชำระเงินเรียบร้อยแล้ว</option>
               </select>
             </div>
             <div class="form-group">
@@ -1108,6 +1162,43 @@
             <label>ข้อมูลบัญชีรับโอนเงิน (Bank Account)</label>
             <input type="text" id="qtBankAccount" value="ธนาคารกสิกรไทย (KBANK) • เลขที่ 748-2-70422-5 • เอกนรินทร์ สุขสา" oninput="renderA4()">
           </div>
+
+          <!-- Receipt / Payment Slip Upload Box -->
+          <div class="form-group" style="background: rgba(255, 255, 255, 0.035); border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 14px; margin-top: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <label style="font-weight: 700; color: #fff; margin: 0; font-size: 0.9rem; display: flex; align-items: center; gap: 6px;">
+                📎 อัปโหลดใบเสร็จรับเงิน / สลิปโอนเงิน (Upload Receipt)
+              </label>
+              <span style="font-size: 0.76rem; color: var(--text-muted);">รองรับรูปภาพ (JPG, PNG) หรือ PDF</span>
+            </div>
+            
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+              <input type="file" id="receiptFileInput" accept="image/*,application/pdf" style="display: none;" onchange="handleReceiptUpload(event)">
+              <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('receiptFileInput').click()" style="color: #58a6ff; border-color: rgba(88, 166, 255, 0.4); font-weight: 600;">
+                📁 เลือกไฟล์ใบเสร็จรับเงิน...
+              </button>
+              <span id="receiptUploadStatus" style="font-size: 0.84rem; color: var(--text-muted);">ยังไม่มีไฟล์แนบ</span>
+            </div>
+
+            <div id="receiptPreviewBox" style="display: none; margin-top: 10px; padding: 10px 14px; background: rgba(18, 24, 38, 0.85); border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1); justify-content: space-between; align-items: center; gap: 12px;">
+              <div style="display: flex; align-items: center; gap: 10px; overflow: hidden;">
+                <img id="receiptThumbImg" src="" style="width: 48px; height: 48px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.15); display: none;">
+                <div id="receiptPdfIcon" style="font-size: 2rem; display: none; line-height: 1;">📄</div>
+                <div style="overflow: hidden;">
+                  <div id="receiptFileName" style="font-weight: 600; color: #fff; font-size: 0.85rem; white-space: nowrap; text-overflow: ellipsis; max-width: 240px;"></div>
+                  <div id="receiptFileInfo" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;"></div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 6px; flex-shrink: 0;">
+                <button type="button" class="btn btn-outline btn-sm" onclick="openReceiptModal()" style="padding: 4px 10px; font-size: 0.8rem; color: #58a6ff;">
+                  👁️ ดูไฟล์เต็ม
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="clearReceiptUpload()" style="padding: 4px 10px; font-size: 0.8rem;">
+                  🗑️ ลบ
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Live Preview A4 Sheet Column -->
@@ -1125,8 +1216,8 @@
                 </div>
               </div>
               <div class="a4-title-tag">
-                <h2>QUOTATION</h2>
-                <div style="font-size: 12px; font-weight: 600; color: #555;">ใบเสนอราคา</div>
+                <h2 id="pvDocEnTitle">QUOTATION</h2>
+                <div id="pvDocThTitle" style="font-size: 12px; font-weight: 600; color: #555;">ใบเสนอราคา</div>
               </div>
             </div>
 
@@ -1141,7 +1232,7 @@
                 <h4>ข้อมูลเอกสาร (Document Details)</h4>
                 <table style="width: 100%; font-size: 12px;">
                   <tr>
-                    <td style="color: #666;">เลขที่:</td>
+                    <td id="pvLblDocNumber" style="color: #666;">เลขที่:</td>
                     <td id="pvQtNumber" style="font-weight: 600; text-align: right;">QT-20260901-01</td>
                   </tr>
                   <tr>
@@ -1149,7 +1240,7 @@
                     <td id="pvQtDate" style="text-align: right;">01/09/2026</td>
                   </tr>
                   <tr>
-                    <td style="color: #666;">กำหนดยืนราคา:</td>
+                    <td id="pvLblDocDate2" style="color: #666;">กำหนดยืนราคา:</td>
                     <td id="pvQtValidity" style="text-align: right;">30 วัน</td>
                   </tr>
                   <tr>
@@ -1179,7 +1270,7 @@
             <!-- Summary & Payment Info -->
             <div class="a4-summary-grid">
               <div class="a4-box" style="background-color: #fff; font-size: 11px;">
-                <h4>เงื่อนไขและรายละเอียดการส่งมอบ (Terms & Conditions)</h4>
+                <h4 id="pvTermsTitle">เงื่อนไขและรายละเอียดการส่งมอบ (Terms & Conditions)</h4>
                 <ul style="padding-left: 16px; margin: 4px 0; color: #444; line-height: 1.6;">
                   <li id="pvRevision">รวมการแก้ไข 2 รอบต่อ deliverable</li>
                   <li>ไฟล์ความละเอียดสูง Master 300 DPI และไฟล์วิดีโอดิจิทัล</li>
@@ -1209,19 +1300,30 @@
             <!-- Signatures -->
             <div class="a4-signatures">
               <div class="a4-sig-box">
-                <div style="font-size: 11px; color: #666;">ในนาม <strong>whY Creativelab</strong></div>
+                <div id="pvSig1Sub" style="font-size: 11px; color: #666;">ในนาม <strong>whY Creativelab</strong></div>
                 <div class="a4-sig-line"></div>
                 <div style="font-weight: 600;">( เอกนรินทร์ สุขสา )</div>
-                <div style="font-size: 11px; color: #777;">ผู้เสนอราคา / Creative Director</div>
+                <div id="pvSig1Title" style="font-size: 11px; color: #777;">ผู้เสนอราคา / Creative Director</div>
                 <div style="font-size: 11px; color: #999; margin-top: 2px;">วันที่: _____/_____/_________</div>
               </div>
               <div class="a4-sig-box">
-                <div style="font-size: 11px; color: #666;">อนุมัติสั่งจ้างตามข้อเสนอข้างต้น</div>
+                <div id="pvSig2Sub" style="font-size: 11px; color: #666;">อนุมัติสั่งจ้างตามข้อเสนอข้างต้น</div>
                 <div class="a4-sig-line"></div>
                 <div style="font-weight: 600;">( ____________________________ )</div>
-                <div style="font-size: 11px; color: #777;">ผู้มีอำนาจลงนาม / ลูกค้า</div>
+                <div id="pvSig2Title" style="font-size: 11px; color: #777;">ผู้มีอำนาจลงนาม / ลูกค้า</div>
                 <div style="font-size: 11px; color: #999; margin-top: 2px;">วันที่: _____/_____/_________</div>
               </div>
+            </div>
+
+            <!-- Attached Receipt / Slip Preview on A4 Sheet -->
+            <div id="a4ReceiptAttachment" style="display: none; margin-top: 24px; padding: 12px; border: 1px dashed #bbb; border-radius: 6px; background-color: #fafbfc; page-break-inside: avoid;">
+              <div style="font-size: 11px; font-weight: 700; color: #333; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                📎 เอกสารหลักฐานใบเสร็จรับเงิน / สลิปโอนเงินแนบ (Attached Payment Receipt):
+              </div>
+              <div id="a4ReceiptImgContainer" style="text-align: center;">
+                <img id="a4ReceiptImg" src="" style="max-height: 180px; max-width: 100%; border: 1px solid #ccc; border-radius: 4px; object-fit: contain;">
+              </div>
+              <div id="a4ReceiptPdfLabel" style="font-size: 11px; color: #555; text-align: center; display: none;"></div>
             </div>
           </div>
         </div>
@@ -1599,6 +1701,218 @@
       { desc: '03 HYPER AD — AI VIDEO (20 sec × 1, Concept, Shot Dev, Motion Refinement)', qty: 1, unitPrice: 25000, total: 25000 }
     ];
 
+    /* Document Type Configuration (Quotation / Billing Note / Invoice / Receipt) */
+    const docTypeConfig = {
+      quotation: {
+        enTitle: 'QUOTATION',
+        thTitle: 'ใบเสนอราคา',
+        numLabel: 'เลขที่ใบเสนอราคา (Quotation No.)',
+        numPrefix: 'QT-',
+        date2Label: 'กำหนดยืนราคา (Valid Until)',
+        termsTitle: 'เงื่อนไขและรายละเอียดการส่งมอบ (Terms & Conditions)',
+        sig1Title: 'ผู้เสนอราคา / Creative Director',
+        sig1Sub: 'ในนาม whY Creativelab',
+        sig2Title: 'ผู้มีอำนาจลงนาม / ลูกค้า',
+        sig2Sub: 'อนุมัติสั่งจ้างตามข้อเสนอข้างต้น',
+        syncStatus: 'ออกใบเสนอราคาแล้ว'
+      },
+      billingNote: {
+        enTitle: 'BILLING NOTE',
+        thTitle: 'ใบวางบิล',
+        numLabel: 'เลขที่ใบวางบิล (Billing Note No.)',
+        numPrefix: 'BN-',
+        date2Label: 'กำหนดชำระเงิน (Due Date)',
+        termsTitle: 'เงื่อนไขการวางบิลและการชำระเงิน (Payment Terms)',
+        sig1Title: 'ผู้วางบิล / ผู้ส่งเอกสาร',
+        sig1Sub: 'ในนาม whY Creativelab',
+        sig2Title: 'ผู้รับวางบิล / ลูกค้า',
+        sig2Sub: 'ได้รับเอกสารวางบิลถูกต้องเรียบร้อยแล้ว',
+        syncStatus: 'วางบิลแล้ว'
+      },
+      invoice: {
+        enTitle: 'INVOICE',
+        thTitle: 'ใบแจ้งหนี้',
+        numLabel: 'เลขที่ใบแจ้งหนี้ (Invoice No.)',
+        numPrefix: 'INV-',
+        date2Label: 'กำหนดชำระเงิน (Due Date)',
+        termsTitle: 'รายละเอียดการเรียกเก็บเงินและการชำระเงิน (Invoice Terms)',
+        sig1Title: 'ผู้แจ้งหนี้ / ผู้รับมอบอำนาจ',
+        sig1Sub: 'ในนาม whY Creativelab',
+        sig2Title: 'ผู้รับใบแจ้งหนี้ / ลูกค้า',
+        sig2Sub: 'ตกลงตามรายการและยอดเรียกเก็บข้างต้น',
+        syncStatus: 'ออกใบแจ้งหนี้แล้ว'
+      },
+      receipt: {
+        enTitle: 'RECEIPT',
+        thTitle: 'ใบเสร็จรับเงิน',
+        numLabel: 'เลขที่ใบเสร็จรับเงิน (Receipt No.)',
+        numPrefix: 'REC-',
+        date2Label: 'วันที่รับเงิน (Payment Date)',
+        termsTitle: 'หลักฐานการรับเงินและภาษีหัก ณ ที่จ่าย (Receipt & Tax Info)',
+        sig1Title: 'ผู้รับเงิน / ผู้มีอำนาจลงนาม',
+        sig1Sub: 'ในนาม whY Creativelab',
+        sig2Title: 'ผู้ชำระเงิน / ลูกค้า',
+        sig2Sub: 'ชำระเงินครบถ้วนเรียบร้อยแล้ว',
+        syncStatus: 'ออกใบเสร็จแล้ว'
+      }
+    };
+
+    let currentDocType = 'quotation';
+    let currentReceipt = null;
+
+    try {
+      const savedRc = localStorage.getItem('why_uploaded_receipt');
+      if (savedRc) currentReceipt = JSON.parse(savedRc);
+    } catch(e) {}
+
+    function setDocumentType(type) {
+      if (!docTypeConfig[type]) return;
+      currentDocType = type;
+
+      const btns = {
+        quotation: document.getElementById('btnDocQuotation'),
+        billingNote: document.getElementById('btnDocBilling'),
+        invoice: document.getElementById('btnDocInvoice'),
+        receipt: document.getElementById('btnDocReceipt')
+      };
+      Object.keys(btns).forEach(k => {
+        if (btns[k]) {
+          if (k === type) btns[k].classList.add('active');
+          else btns[k].classList.remove('active');
+        }
+      });
+
+      const cfg = docTypeConfig[type];
+
+      const badge = document.getElementById('docTypeBadge');
+      if (badge) badge.textContent = cfg.enTitle;
+
+      const numLabel = document.getElementById('lblDocNumber');
+      if (numLabel) numLabel.textContent = cfg.numLabel;
+
+      const numInput = document.getElementById('qtNumber');
+      if (numInput) {
+        const val = numInput.value.trim();
+        if (/^(QT|BN|INV|REC)-/i.test(val)) {
+          numInput.value = val.replace(/^(QT|BN|INV|REC)-/i, cfg.numPrefix);
+        } else if (!val || val === '-') {
+          numInput.value = cfg.numPrefix + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-01';
+        }
+      }
+
+      const date2Label = document.getElementById('lblDocDate2');
+      if (date2Label) date2Label.textContent = cfg.date2Label;
+
+      renderA4();
+    }
+
+    function handleReceiptUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentReceipt = {
+          name: file.name,
+          size: (file.size / 1024).toFixed(1) + ' KB',
+          type: file.type || 'application/octet-stream',
+          dataUrl: e.target.result,
+          uploadedAt: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem('why_uploaded_receipt', JSON.stringify(currentReceipt));
+        } catch(err) {
+          console.warn('Receipt file large, kept in memory');
+        }
+        updateReceiptUI();
+        renderA4();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function updateReceiptUI() {
+      const statusEl = document.getElementById('receiptUploadStatus');
+      const previewBox = document.getElementById('receiptPreviewBox');
+      const thumbImg = document.getElementById('receiptThumbImg');
+      const pdfIcon = document.getElementById('receiptPdfIcon');
+      const fileNameEl = document.getElementById('receiptFileName');
+      const fileInfoEl = document.getElementById('receiptFileInfo');
+
+      if (!currentReceipt) {
+        if (statusEl) statusEl.textContent = 'ยังไม่มีไฟล์แนบ';
+        if (previewBox) previewBox.style.display = 'none';
+        return;
+      }
+
+      if (statusEl) statusEl.innerHTML = '<span style="color: #6ee7b7; font-weight: 600;">✓ แนบไฟล์สำเร็จ</span>';
+      if (previewBox) previewBox.style.display = 'flex';
+      if (fileNameEl) fileNameEl.textContent = currentReceipt.name;
+      if (fileInfoEl) fileInfoEl.textContent = `${currentReceipt.size} • ${currentReceipt.type && currentReceipt.type.includes('pdf') ? 'PDF Document' : 'Image File'}`;
+
+      if (currentReceipt.type && currentReceipt.type.startsWith('image/')) {
+        if (thumbImg) {
+          thumbImg.src = currentReceipt.dataUrl;
+          thumbImg.style.display = 'block';
+        }
+        if (pdfIcon) pdfIcon.style.display = 'none';
+      } else {
+        if (thumbImg) thumbImg.style.display = 'none';
+        if (pdfIcon) pdfIcon.style.display = 'block';
+      }
+    }
+
+    function clearReceiptUpload() {
+      currentReceipt = null;
+      try {
+        localStorage.removeItem('why_uploaded_receipt');
+      } catch(e) {}
+      const fileInput = document.getElementById('receiptFileInput');
+      if (fileInput) fileInput.value = '';
+      updateReceiptUI();
+      renderA4();
+    }
+
+    function openReceiptModal(customReceipt) {
+      const rc = customReceipt || currentReceipt;
+      if (!rc) {
+        alert('ไม่พบไฟล์ใบเสร็จรับเงิน');
+        return;
+      }
+      const modal = document.getElementById('receiptModal');
+      const title = document.getElementById('receiptModalTitle');
+      const body = document.getElementById('receiptModalBody');
+      if (!modal || !body) return;
+
+      title.textContent = `📎 ใบเสร็จรับเงิน: ${rc.name}`;
+      if (rc.type && rc.type.startsWith('image/')) {
+        body.innerHTML = `<img src="${rc.dataUrl}" style="max-width: 100%; max-height: 75vh; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 12px 36px rgba(0,0,0,0.6);">`;
+      } else {
+        body.innerHTML = `
+          <div style="padding: 24px; color: #fff;">
+            <div style="font-size: 3rem; margin-bottom: 12px;">📄</div>
+            <p style="font-size: 1.1rem; margin-bottom: 8px; font-weight: 600;">${rc.name}</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">ขนาด: ${rc.size || '-'}</p>
+            <a href="${rc.dataUrl}" download="${rc.name}" class="btn btn-primary" style="text-decoration: none;">⬇️ ดาวน์โหลด / เปิดไฟล์ PDF</a>
+          </div>
+        `;
+      }
+      modal.style.display = 'flex';
+    }
+
+    function closeReceiptModal() {
+      const modal = document.getElementById('receiptModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function viewProjectReceipt(id) {
+      const proj = billingData.find(x => x.id === id);
+      if (proj && proj.receiptData) {
+        openReceiptModal(proj.receiptData);
+      } else {
+        alert('ยังไม่มีไฟล์ใบเสร็จรับเงินแนบไว้สำหรับโปรเจกต์นี้\nคุณสามารถเปิดสร้างใบเสร็จรับเงินเพื่ออัปโหลดแนบไฟล์ได้ครับ');
+      }
+    }
+
     function toggleQuotationGenerator() {
       const section = document.getElementById('quotationSection');
       if (!section) return;
@@ -1707,6 +2021,35 @@
     }
 
     function renderA4() {
+      const cfg = docTypeConfig[currentDocType] || docTypeConfig.quotation;
+
+      const pvDocEnTitle = document.getElementById('pvDocEnTitle');
+      if (pvDocEnTitle) pvDocEnTitle.textContent = cfg.enTitle;
+
+      const pvDocThTitle = document.getElementById('pvDocThTitle');
+      if (pvDocThTitle) pvDocThTitle.textContent = cfg.thTitle;
+
+      const pvLblDocNumber = document.getElementById('pvLblDocNumber');
+      if (pvLblDocNumber) pvLblDocNumber.textContent = cfg.thTitle + 'เลขที่:';
+
+      const pvLblDocDate2 = document.getElementById('pvLblDocDate2');
+      if (pvLblDocDate2) pvLblDocDate2.textContent = cfg.date2Label.split(' ')[0] + ':';
+
+      const pvTermsTitle = document.getElementById('pvTermsTitle');
+      if (pvTermsTitle) pvTermsTitle.textContent = cfg.termsTitle;
+
+      const pvSig1Sub = document.getElementById('pvSig1Sub');
+      if (pvSig1Sub) pvSig1Sub.innerHTML = `ในนาม <strong>whY Creativelab</strong>`;
+
+      const pvSig1Title = document.getElementById('pvSig1Title');
+      if (pvSig1Title) pvSig1Title.textContent = cfg.sig1Title;
+
+      const pvSig2Sub = document.getElementById('pvSig2Sub');
+      if (pvSig2Sub) pvSig2Sub.textContent = cfg.sig2Sub;
+
+      const pvSig2Title = document.getElementById('pvSig2Title');
+      if (pvSig2Title) pvSig2Title.textContent = cfg.sig2Title;
+
       document.getElementById('pvQtNumber').textContent = document.getElementById('qtNumber').value || '-';
       document.getElementById('pvQtDate').textContent = document.getElementById('qtDate').value || '-';
       document.getElementById('pvQtValidity').textContent = document.getElementById('qtValidity').value || '-';
@@ -1716,6 +2059,31 @@
       document.getElementById('pvRevision').textContent = document.getElementById('qtRevision').value || '-';
       document.getElementById('pvPaymentTerms').textContent = document.getElementById('qtPaymentTerms').value || '-';
       document.getElementById('pvBankAccount').textContent = 'โอนเงินเข้า: ' + (document.getElementById('qtBankAccount').value || '-');
+
+      // Update A4 Receipt Attachment
+      const a4Att = document.getElementById('a4ReceiptAttachment');
+      const a4Img = document.getElementById('a4ReceiptImg');
+      const a4PdfLabel = document.getElementById('a4ReceiptPdfLabel');
+      if (a4Att) {
+        if (currentReceipt) {
+          a4Att.style.display = 'block';
+          if (currentReceipt.type && currentReceipt.type.startsWith('image/')) {
+            if (a4Img) {
+              a4Img.src = currentReceipt.dataUrl;
+              a4Img.style.display = 'inline-block';
+            }
+            if (a4PdfLabel) a4PdfLabel.style.display = 'none';
+          } else {
+            if (a4Img) a4Img.style.display = 'none';
+            if (a4PdfLabel) {
+              a4PdfLabel.textContent = `📄 ไฟล์เอกสาร PDF แนบ: ${currentReceipt.name} (${currentReceipt.size || ''})`;
+              a4PdfLabel.style.display = 'block';
+            }
+          }
+        } else {
+          a4Att.style.display = 'none';
+        }
+      }
 
       const tbody = document.getElementById('pvTableBody');
       let subtotal = 0;
@@ -2057,7 +2425,8 @@
     function syncQuotationToBilling() {
       const clientName = document.getElementById('qtClientName').value.trim() || 'ลูกค้าทั่วไป';
       const projectName = document.getElementById('qtProjectName').value.trim() || clientName;
-      const qtNum = document.getElementById('qtNumber').value.trim() || 'QT-' + Date.now();
+      const cfg = docTypeConfig[currentDocType] || docTypeConfig.quotation;
+      const qtNum = document.getElementById('qtNumber').value.trim() || (cfg.numPrefix + Date.now());
       const taxOption = parseFloat(document.getElementById('qtTaxOption').value) || 0;
       
       let subtotal = 0;
@@ -2065,13 +2434,28 @@
       const tax = (subtotal * taxOption) / 100;
       const net = subtotal - tax;
 
+      let statusDesc = `${cfg.thTitle} (${qtNum})`;
+      if (currentDocType === 'receipt') {
+        statusDesc = `ออกใบเสร็จแล้ว (${qtNum})`;
+      } else if (currentDocType === 'billingNote') {
+        statusDesc = `วางบิลแล้ว (${qtNum})`;
+      } else if (currentDocType === 'invoice') {
+        statusDesc = `ออกใบแจ้งหนี้ (${qtNum})`;
+      }
+
       let proj = billingData.find(b => b.project.toLowerCase() === projectName.toLowerCase());
       if (proj) {
         proj.gross = subtotal;
         proj.tax = tax;
         proj.net = net;
-        proj.quotationStatus = `ออกแล้ว (${qtNum})`;
+        proj.quotationStatus = statusDesc;
         proj.poNumber = qtNum;
+        if (currentDocType === 'receipt') {
+          proj.paymentStatus = 'จ่ายแล้ว';
+        }
+        if (currentReceipt) {
+          proj.receiptData = { ...currentReceipt };
+        }
       } else {
         const newProj = {
           id: 'b_' + Date.now(),
@@ -2082,18 +2466,19 @@
           net: net,
           expectedMonth: selectedMonth !== 'all' ? selectedMonth : '2026-09',
           paymentDate: '2026-09-30',
-          quotationStatus: `ออกแล้ว (${qtNum})`,
+          quotationStatus: statusDesc,
           poNumber: qtNum,
           billingDate: '15 กันยายน 2569',
           billingDateIso: '2026-09-15',
           taxCertStatus: 'ยังไม่ได้รับ',
-          paymentStatus: 'มัดจำ'
+          paymentStatus: currentDocType === 'receipt' ? 'จ่ายแล้ว' : 'มัดจำ',
+          receiptData: currentReceipt ? { ...currentReceipt } : null
         };
         billingData.push(newProj);
       }
 
       saveBillingData();
-      alert(`⚡ ซิงค์ข้อมูลใบเสนอราคา ${qtNum} (ยอด ${subtotal.toLocaleString()} ฿) เข้าสู่ตารางวางบิลเรียบร้อยแล้ว!`);
+      alert(`⚡ ซิงค์ข้อมูล${cfg.thTitle} ${qtNum} (ยอด ${subtotal.toLocaleString()} ฿) เข้าสู่ตารางวางบิลเรียบร้อยแล้ว!`);
     }
 
     function addNewProject() {
@@ -2527,8 +2912,10 @@
             <td><strong style="color: #7ee787;">${b.net.toLocaleString()} ฿</strong></td>
             <td style="white-space: nowrap;">
               <input type="date" value="${b.paymentDate || (safeMonth ? safeMonth + '-01' : '')}" onchange="updateBillingPaymentDate('${b.id}', this.value)" style="padding: 4px 6px; font-size: 0.8rem; width: 130px; border-radius: 8px;" title="เลือกวันที่และเดือนที่เงินเข้า">
+            <td>
+              <span class="doc-badge">${(b.quotationStatus && b.quotationStatus.length < 40 && !b.quotationStatus.includes(',')) ? b.quotationStatus : (b.project.includes('Kaenket') ? 'ส่งแล้ว (01/09)' : 'เตรียมออกใบราคา')}</span>
+              ${b.receiptData ? `<div style="margin-top: 4px;"><button type="button" class="btn btn-outline btn-sm" onclick="viewProjectReceipt('${b.id}')" style="font-size: 0.72rem; padding: 2px 6px; color: #6ee7b7; border-color: rgba(16, 185, 129, 0.4); cursor: pointer;">📎 ดูใบเสร็จ</button></div>` : ''}
             </td>
-            <td><span class="doc-badge">${(b.quotationStatus && b.quotationStatus.length < 40 && !b.quotationStatus.includes(',')) ? b.quotationStatus : (b.project.includes('Kaenket') ? 'ส่งแล้ว (01/09)' : 'เตรียมออกใบราคา')}</span></td>
             <td><span style="color: var(--text-muted);">${(b.poNumber && b.poNumber.length < 25 && !b.poNumber.includes(',')) ? b.poNumber : '- รอระบุ -'}</span></td>
             <td style="white-space: nowrap;">
               <input type="date" value="${b.billingDateIso || ''}" onchange="updateBillingDate('${b.id}', this.value)" style="padding: 4px 6px; font-size: 0.8rem; width: 130px; border-radius: 8px;" title="เลือกวันที่และเดือนที่วางบิล">
@@ -3269,6 +3656,7 @@ whY Creativelab`);
 
 
     // Init
+    updateReceiptUI();
     renderQtItemsForm();
     renderA4();
     updateProjectDropdowns();
@@ -3568,6 +3956,20 @@ function saveBillingToSheet(ss, billingList) {
 
   sheet.getRange(1, 1, values.length, headers.length).setValues(values);
 }</textarea>
+    </div>
+  </div>
+
+  <!-- Modal: View Uploaded Receipt -->
+  <div id="receiptModal" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 10001; align-items: center; justify-content: center; padding: 20px;">
+    <div class="card" style="max-width: 760px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; margin-bottom: 0; border-color: rgba(99, 102, 241, 0.5); box-shadow: 0 24px 64px rgba(0,0,0,0.85); text-align: center;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px;">
+        <h3 id="receiptModalTitle" style="font-size: 1.1rem; color: #fff; margin: 0; display: flex; align-items: center; gap: 8px;">
+          📎 ใบเสร็จรับเงินที่แนบไว้
+        </h3>
+        <button class="btn btn-outline btn-sm" onclick="closeReceiptModal()" style="font-size: 0.9rem; padding: 4px 10px;">✕ ปิด</button>
+      </div>
+      <div id="receiptModalBody" style="padding: 10px 0;">
+      </div>
     </div>
   </div>
 
